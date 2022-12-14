@@ -10,15 +10,13 @@ struct curso
     char nombre[200];
     int id,precio,aforo;
     char descripcion[200];
+    char ponente1[200];
+    char ponente2[200];
     //faltan las fechas
-};
-struct ponente
-{
-    char nombre[200];
 };
 
 void crear_curso(char *nF,int cod);
-//void modificar_curso();
-//void mostrar_curso();
-
+int modificar_curso(char *nF,int cod);
+void mostrar_curso(char *nF,int codigo);
+int buscar_curso(char *nF,int cod);
 #endif
