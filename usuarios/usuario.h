@@ -11,12 +11,13 @@ struct user
     char password[200];
 };
 
-
+void menuPrincipal();
+void menuParticipante();
 int iniciar_sesion(char *nf, struct user datos);
 void visualizar_informacion_usuarios(char *nf);
 /*int inscribirse_al_curso();
 int acceder_a_informacion();*/
-//void crear_cuenta(char *nf, struct user usuario);
+void crear_cuenta(char *nf, struct user usuario);
 /*int gestionar_recursos();
 int crear_cursos();
 int gestionar_permisos();

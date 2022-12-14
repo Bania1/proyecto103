@@ -3,6 +3,31 @@
 #include <string.h>
 #include "usuario.h"
 
+void menuPrincipal()
+{
+    printf("----------------- MENU PRINCIPAL -----------------\n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("1. INICIAR SESION.\n");
+    printf("2. CREAR CUENTA.\n");
+    printf("3. VISITANTE.\n");
+    printf("4. SALIR\n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("\nINTRODUZCA EL NUMERO PARA ENTRAR EN LA OPCION QUE DESEE\n");
+    printf("---->");
+
+}
+
+void menuParticipante()
+{
+    printf("\n----------------- PARTICIPANTE -----------------\n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
+}
 
 void crear_cuenta(char *nf, struct user usuario)
 {
@@ -26,7 +51,7 @@ int iniciar_sesion(char *nf, struct user datos)
     }
     struct user aux;
 
-    while (fscanf(fich, "%s %s\n", aux.email, aux.password))
+    while (fscanf(fich, "%s %s\n", aux.email, aux.password) == 2)
     {
         if ((strcmp(datos.email, aux.email) == 0) && (strcmp(datos.password, aux.password) == 0))
         {
@@ -49,7 +74,7 @@ void visualizar_informacion_usuarios(char *nf) //Falta añadir datos como el nom
     struct user aux;
     while (fscanf(fich, "%s %s\n", aux.email, aux.password))
     {
-        printf("%s\n", aux.email);
+        printf("EL CORREO DEL USUARIO ES: %s\n", aux.email);
     }
     fclose(fich);
 }

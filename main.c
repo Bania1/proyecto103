@@ -3,64 +3,68 @@
 #include <string.h>
 #include "usuarios/usuario.h"
 
-int menu()
+int main(int argc, char **argv)
 {
-    printf("----------------- MENU PRINCIPAL -----------------\n");
-    printf("\n");
-    printf("\n");
-    printf("\n");
-    printf("1. INICIAR SESION.\n");
-    printf("2. VISITANTE.\n");
-    printf("3. CREAR CUENTA.\n");
-    printf("4. SALIR\n");
-    printf("\n");
-    printf("\n");
-    printf("\n");
-    printf("\nINTRODUZCA EL NUMERO PARA ENTRAR EN LA OPCION QUE DESEE\n");
-    printf("---->");
-
-    int c; 
-    scanf("%d", &c);
-    return c;
-}
-
-void menuPartipante()
-{
-    printf("\n----------------- PARTICIPANTE -----------------\n");
-    printf("\n");
-    printf("\n");
-    printf("\n");
-}
-
-int main()
-{
+    if (argc != 2)
+    {
+        printf("Error, debe de introducir el nombre del fichero\n");
+        exit(-1);
+    }
+    char *nF1 = argv[1];
     struct user usern;
     
     //Hacemos el menu
     system("clear");
-    int c=0;
-    c = menu();
+    int c;
+    //c = menu();
     
     while(c != 4)
     {
+        c = menu();
         switch (c)
         {
         case 1: 
         //Menu del participante
             system("clear");
             
-            menuPartipante();
+            //menuPartipante();
+            
+            int cont=0;
             
             printf("CORREO: "); scanf("%s", usern.email);
             printf("CONTRASEÑA: "); scanf("%s", usern.password);
+
+            int comprobar = iniciar_sesion(nF1, usern);
+
+            if (comprobar != 1)
+            {
+                printf("Error, intentelo de nuevo\n");
+                cont++;
+            }
+            else
+            {
+                system("clear");
+                return menu();
+            }
+
+            break;
+
+        case 2:
+        //Creamos la cuenta
+            system("clear");
+
+            menuPartipante();
+
+            printf("CORREO: "); scanf("%s", usern.email);
+            printf("CONTRASEÑA: "); scanf("%s", usern.password);
+
+            crear_cuenta(nF1, usern);
             
             system("clear");
             return menu();
 
             break;
 
-        case 2:
-            system("clear");
         case 3:
             system("clear");
 
@@ -69,5 +73,5 @@ int main()
         }
     }
 
-    return 0;
+    
 }
