@@ -3,7 +3,7 @@
 #include <string.h>
 #include "curso.h"
 
-void crear_curso(char *nF,int cod)
+int crear_curso(char *nF,int cod)
 {
     FILE *fich=fopen(nF,"a");
     if(fich==NULL)
@@ -15,7 +15,6 @@ void crear_curso(char *nF,int cod)
     c.id=cod;
 
     printf("introduce el nombre del curso con codigo %d\n",c.id);
-    //scanf("%s",c.nombre);
     fgets(c.nombre,200,stdin);
     c.nombre[strlen(c.nombre)-1]='\0';
     fflush(stdin);
@@ -23,45 +22,71 @@ void crear_curso(char *nF,int cod)
     printf("introduce la descipcion del curso con codigo %d\n",c.id);
     fgets(c.descripcion,200,stdin);
     c.descripcion[strlen(c.descripcion)-1]='\0';
-    //scanf("%s",c.descripcion);
     fflush(stdin);  
-    
+
+    printf("introduce el nombre del primer ponente\n");
+    fgets(c.ponente1,200,stdin);
+    c.ponente1[strlen(c.ponente1)-1]='\0';
+
+    printf("introduce el nombre del segundo ponente\n");
+    fgets(c.ponente2,200,stdin);
+    c.ponente2[strlen(c.ponente2)-1]='\0';
 
     printf("introduce el precio del curso con codigo %d\n",c.id);
     scanf("%d",&c.precio);
     printf("introduce el aforo del curso con codigo %d\n",c.id);
     scanf("%d",&c.aforo);
 
-    printf("introduce el nombre del primer ponente\n");
-    scanf("%s",c.ponente1);
-    //fgets(c.ponente1,200,stdin);
-    //c.ponente1[strlen(c.ponente1)-1]='\0';
-    //fflush(stdin);
-    printf("introduce el nombre del segundo ponente\n");
-    scanf("%s",c.ponente2);
-    //fgets(c.ponente2,200,stdin);
-    //c.ponente2[strlen(c.ponente2)-1]='\0';
-    //fflush(stdin);
-
     printf("introduce el primer dia del curso\n");
     scanf("%d",&c.dia_inicio);
+    if((c.dia_inicio<1)||(c.dia_inicio>31))
+    {
+        fclose(fich);
+        return 0;//error
+    }
     printf("introduce el mes de inicio del curso\n");
     scanf("%d",&c.mes_inicio);
+    if((c.mes_inicio<1)||(c.mes_inicio>12))
+    {
+        fclose(fich);
+        return 0;//error
+    }
     printf("introduce el anio de inicio\n");
     scanf("%d",&c.anio_inicio);
+    if(c.anio_inicio<2022)
+    {
+        fclose(fich);
+        return 0;//error
+    }
     printf("introduce el ultimo dia del curso\n");
     scanf("%d",&c.dia_final);
+    if((c.dia_final<1)||(c.dia_final>31))
+    {
+        fclose(fich);
+        return 0;//error
+    }
     printf("introduce el mes de finalizacion\n");
     scanf("%d",&c.mes_final);
+    if((c.mes_final<1)||(c.mes_final>12))
+    {
+        fclose(fich);
+        return 0;//error
+    }
     printf("introduce el anio de finalizacion\n");
     scanf("%d",&c.anio_final);
+    if(c.anio_final<c.anio_inicio)
+    {
+        fclose(fich);
+        return 0;//error
+    }
 
     fprintf(fich,"%s\n%s\n%d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
 
     fclose(fich);
+    return 1;//exito
 }
 
-void mostrar_curso(char *nF,int codigo)
+void mostrar_curso(char *nF,int cod)
 {
     FILE *fich=fopen(nF,"r");
     if(fich==NULL)
@@ -79,8 +104,6 @@ void mostrar_curso(char *nF,int codigo)
         c.descripcion[strlen(c.descripcion)-1]='\0';
 
         fscanf(fich,"%d %d %d\n",&c.id,&c.precio,&c.aforo);
-        //fscanf("%s",c.ponente1);
-        //fscanf("%s",c.ponente2);
 
         fgets(c.ponente1,200,fich);
         c.ponente1[strlen(c.ponente1)-1]='\0';
@@ -89,7 +112,45 @@ void mostrar_curso(char *nF,int codigo)
 
         fscanf(fich,"%d %d %d\n",&c.dia_inicio,&c.mes_inicio,&c.anio_inicio);
         fscanf(fich,"%d %d %d\n",&c.dia_final,&c.mes_final,&c.anio_final);
-        
+
+        if(c.id==cod)
+        {
+            printf("-------------------------------------------------\n");
+            printf("Curso: %s -------- Identidficador: [%d]\nDescripcion:\n%s\nPrecio: %d euros ----- Aforo: %d personas\nPonente 1: %s ----- Ponente 2: %s\n",c.nombre,c.id,c.descripcion,c.precio,c.aforo,c.ponente1,c.ponente2);
+            printf("fecha de inicio--> %d del %d del %d -- fecha de finalizacion--> %d del %d del %d\n",c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
+            printf("-------------------------------------------------\n");
+        }
+    }
+    fclose(fich);
+}
+
+void mostrar_todos_cursos(char *nF)
+{
+    FILE *fich=fopen(nF,"r");
+    if(fich==NULL)
+    {
+        printf("error al abrir el archivo\n");
+        exit(-1);
+    }
+    struct curso c;
+
+    while(fgets(c.nombre,200,fich))
+    {
+        c.nombre[strlen(c.nombre)-1]='\0';
+
+        fgets(c.descripcion,200,fich);
+        c.descripcion[strlen(c.descripcion)-1]='\0';
+
+        fscanf(fich,"%d %d %d\n",&c.id,&c.precio,&c.aforo);
+
+        fgets(c.ponente1,200,fich);
+        c.ponente1[strlen(c.ponente1)-1]='\0';
+        fgets(c.ponente2,200,fich);
+        c.ponente2[strlen(c.ponente2)-1]='\0';
+
+        fscanf(fich,"%d %d %d\n",&c.dia_inicio,&c.mes_inicio,&c.anio_inicio);
+        fscanf(fich,"%d %d %d\n",&c.dia_final,&c.mes_final,&c.anio_final);
+
         printf("-------------------------------------------------\n");
         printf("Curso: %s -------- Identidficador: [%d]\nDescripcion:\n%s\nPrecio: %d euros ----- Aforo: %d personas\nPonente 1: %s ----- Ponente 2: %s\n",c.nombre,c.id,c.descripcion,c.precio,c.aforo,c.ponente1,c.ponente2);
         printf("fecha de inicio--> %d del %d del %d -- fecha de finalizacion--> %d del %d del %d\n",c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
@@ -115,8 +176,6 @@ int buscar_curso(char *nF,int cod)
         c.descripcion[strlen(c.descripcion)-1]='\0';
 
         fscanf(fich,"%d %d %d\n",&c.id,&c.precio,&c.aforo);
-        //fscanf("%s",c.ponente1);
-        //fscanf("%s",c.ponente2);
 
         fgets(c.ponente1,200,fich);
         c.ponente1[strlen(c.ponente1)-1]='\0';
@@ -174,45 +233,91 @@ int modificar_curso(char *nF,int cod)
         if(buscar_curso(nF,cod)==0)
         {
             //printf("Curso no existente\n");
-            return  0;
+            fclose(fich);
+            fclose(fich2);
+            remove("auxf.txt");
+            return 0;//error
         }
 
         if(c.id==cod)
         {
-            printf("introduce el nuevo nombre del curso con codigo %d\n",cod);
+            /*printf("introduce el nuevo nombre del curso con codigo %d\n",cod);
             fgets(c.nombre,200,stdin);
             c.nombre[strlen(c.nombre)-1]='\0';
-            fflush(stdin);
+            fflush(stdin);*/
 
-            printf("introduce la nueva descipcion del curso con codigo %d\n",cod);
+            printf("introduce la nueva descipcion del curso %s con codigo %d\n",c.nombre,cod);
             fgets(c.descripcion,200,stdin);
             c.descripcion[strlen(c.descripcion)-1]='\0';
             fflush(stdin);  
             
+            printf("introduce el nombre del primer ponente del curso %s\n",c.nombre);
+            fgets(c.ponente1,200,stdin);
+            c.ponente1[strlen(c.ponente1)-1]='\0';
 
-            printf("introduce el nuevo precio del curso con codigo %d\n",cod);
+            printf("introduce el nombre del segundo ponente del curso %s\n",c.nombre);
+            fgets(c.ponente2,200,stdin);
+            c.ponente2[strlen(c.ponente2)-1]='\0';
+
+            printf("introduce el nuevo precio del curso %s con codigo %d\n",c.nombre,cod);
             scanf("%d",&c.precio);
-            printf("introduce el nuevo aforo del curso con codigo %d\n",cod);
+            printf("introduce el nuevo aforo del curso %s con codigo %d\n",c.nombre,cod);
             scanf("%d",&c.aforo);
-
-            printf("introduce el nuevo nombre del primer ponente\n");
-            scanf("%s",c.ponente1);
-            printf("introduce el nuevo nombre del segundo ponente\n");
-            scanf("%s",c.ponente2);
 
             printf("introduce el primer dia del curso\n");
             scanf("%d",&c.dia_inicio);
+            if((c.dia_inicio<1)||(c.dia_inicio>31))
+            {
+                fclose(fich);
+                fclose(fich2);
+                remove("auxf.txt");
+                return 0;//error
+            }
             printf("introduce el mes de inicio del curso\n");
             scanf("%d",&c.mes_inicio);
+            if((c.mes_inicio<1)||(c.mes_inicio>12))
+            {
+                fclose(fich);
+                fclose(fich2);
+                remove("auxf.txt");
+                return 0;//error
+            }
             printf("introduce el anio de inicio\n");
             scanf("%d",&c.anio_inicio);
+            if(c.anio_inicio<2022)
+            {
+                fclose(fich);
+                fclose(fich2);
+                remove("auxf.txt");
+                return 0;//error
+            }
             printf("introduce el ultimo dia del curso\n");
             scanf("%d",&c.dia_final);
+            if((c.dia_final<1)||(c.dia_final>31))
+            {
+                fclose(fich);
+                fclose(fich2);
+                remove("auxf.txt");
+                return 0;//error
+            }
             printf("introduce el mes de finalizacion\n");
             scanf("%d",&c.mes_final);
+            if((c.mes_final<1)||(c.mes_final>12))
+            {
+                fclose(fich);
+                fclose(fich2);
+                remove("auxf.txt");
+                return 0;//error
+            }
             printf("introduce el anio de finalizacion\n");
             scanf("%d",&c.anio_final);
-
+            if(c.anio_final<c.anio_inicio)
+            {
+                fclose(fich);
+                fclose(fich2);
+                remove("auxf.txt");
+                return 0;//error
+            }
         }   
         fprintf(fich2,"%s\n%s\n%d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
     }
@@ -304,8 +409,6 @@ int comprobar_fecha(char *nF,int cod)//0=no ha empezado el curso, 1=ha emezado e
         c.descripcion[strlen(c.descripcion)-1]='\0';
 
         fscanf(fich,"%d %d %d\n",&c.id,&c.precio,&c.aforo);
-        //fscanf("%s",c.ponente1);
-        //fscanf("%s",c.ponente2);
 
         fgets(c.ponente1,200,fich);
         c.ponente1[strlen(c.ponente1)-1]='\0';

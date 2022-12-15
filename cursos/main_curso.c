@@ -15,8 +15,16 @@ int main(int argc, char **argv)
 
     
 
-    //crear_curso(nF,1);
-    //mostrar_curso(nF,1); 
+    /*if(crear_curso(nF,4)==1)
+    {
+        printf("exito\n");
+    }
+    else
+    {
+        printf("error fecha\n");
+    }*/
+    //mostrar_curso(nF,3); 
+    //mostrar_todos_cursos(nF);
     /*if(buscar_curso(nF,1)==1)
     {
         printf("el curso existe\n");
@@ -34,14 +42,14 @@ int main(int argc, char **argv)
         printf("el curso no existe\n");
     }
     printf("\n");*/
-    /*if(modificar_curso(nF,1)==1)
+    if(modificar_curso(nF,2)==1)
     {
         printf("modificado cno exito\n");
     }
     else
     {
         printf("error al omdificar\n"); 
-    }*/
+    }
 
 
     /*if(eliminar_curso(nF,1)==1)

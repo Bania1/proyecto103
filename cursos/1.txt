@@ -1,14 +1,28 @@
 is
-ing soft
-1 12 34
-aurora
-eseba
-6 1 2023
-23 2 2023
+ingenieria del software
+1 90 30
+auaroroa noeq
+angel aute
+1 11 2022
+21 12 2022
 bd
-base de daatos
-2 34 4
-gomez
-nieto
-1 12 2020
-31 12 2024
+base de datos
+2 40 30
+miguel angel
+gomez nieto
+1 12 2022
+5 4 2023
+biblio
+sala de trabajo
+3 0 20
+eseeba caraca
+angel boste
+20 12 2022
+30 12 2022
+domino
+reglas del domino
+4 0 12
+eseba
+alvaro
+2 12 2022
+23 4 2023
