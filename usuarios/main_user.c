@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "usuario.h"
 
 int main(int argc, char **argv)
@@ -19,31 +20,74 @@ int main(int argc, char **argv)
     while(c != 4)
     {
         menuPrincipal();
-        scanf("%d", &c);
+        scanf("%d", &c); printf("\n");
         switch (c)
         {
             case 1: 
-            //Menu del participante
+            //Iniciar sesion
                 system("clear");
                 
                 int cont=0;
             
                 while(cont < 3)
                 {
+                    menu_iniciando_sesion();
+
                     printf("CORREO: "); scanf("%s", usern.email);
                     printf("CONTRASEÑA: "); scanf("%s", usern.password);
-                    int comprobar = iniciar_sesion(nF1, usern);
-                    if (comprobar == 0)
+
+                    int sesion = iniciar_sesion(nF1, usern);
+                    int comprobar1 = comprobar_correo(usern);
+
+                    if ((sesion == 0) && (comprobar1 == 0))
                     {
-                        printf("\nERROR, INTENTELO DE NUEVO\n");
+                        printf("\nERROR, INTENTELO DE NUEVO\n\n");
                         cont++;
+                        sleep(1);
+                        system("clear");
                     }
                     else
                     {
-                        cont=3;
+                        cont=4;
                     }
                 }
-                menuPrincipal();
+                
+                if(cont == 4)
+                {
+                    system("clear");
+                    int op=0;
+                    while (op != 3) //Menu cuando inicias sesion
+                    {
+                        menu_iniciado();
+                        scanf("%d", &op); printf("\n");
+                        switch (op)
+                        {
+                            case 1:
+                                system("clear");
+                                printf("SE HA EJECUTADO VER CURSOS\n");
+                                sleep(2);
+                                system("clear");
+                                break;
+
+                            case 2:
+                                system("clear");
+                                printf("SE HA EJECUTADO INSCRIBIRSE AL CURSO\n");
+                                sleep(2);
+                                system("clear");
+                                break;
+                            case 3:
+                                system("clear");
+                                printf("SE HA EJECUTADO BUSCAR CURSO\n");
+                                sleep(2);
+                                system("clear");
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                }
+                
                 system("clear");
                 
                 break;
@@ -52,19 +96,59 @@ int main(int argc, char **argv)
             //Creamos la cuenta
                 system("clear");
 
-                menuParticipante();
+                menu_creando_usuario();
+                
+                int cont2=0;
 
-                printf("CORREO: "); scanf("%s", usern.email);
-                printf("CONTRASEÑA: "); scanf("%s", usern.password);
+                while(cont2 < 3)
+                {
+                    printf("CORREO: "); scanf("%s", usern.email);
+                    printf("CONTRASEÑA: "); scanf("%s", usern.password);
 
-                crear_cuenta(nF1, usern);
+                    int comprobar = comprobar_correo(usern);
+
+                    if(comprobar == 0)
+                    {
+                        printf("\nCORREO NO VALIDO, TIENE QUE SER '@uco.es'\n\n");
+                        cont2++;
+                        sleep(1);
+                        system("clear");
+                        menu_creando_usuario();
+                    }
+                    else
+                    {
+                        crear_cuenta(nF1, usern);
+                        cont2=3;
+                    }
+                }
                 
                 system("clear");
-                menuPrincipal();
-
+                
                 break;
 
             case 3:
+            //Se abre el menu modo visitante
+                system("clear");
+                int op2=0;
+
+                while (op2 != 2)
+                {
+                    menu_visitante();
+                    scanf("%d",&op2);
+
+                    switch (op2)
+                    {
+                    case 1:
+                        system("clear");
+                        printf("SE HA EJECUTADO VER CURSOS\n");
+                        sleep(2);
+                        system("clear");
+                        break;
+                    
+                    default:
+                        break;
+                    }
+                }
                 system("clear");
 
             default:
