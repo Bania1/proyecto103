@@ -80,9 +80,23 @@ int main(int argc, char **argv)
                             case 1:
                                 system("clear");
                                 printf("SE HA EJECUTADO VER CURSOS\n");
-                                sleep(2);
+                                mostrar_todos_cursos(fichCursos);
+                                int volver;
+                                printf("PRESIONE '1' PARA VOLVER.\n");
+                                scanf("%d", &volver);
+
+                                while(volver != 1)
+                                {
+                                    system("clear");
+                                    printf("ERROR, PRESIONE '1' PARA VOLVER\n");
+                                    scanf("%d", &volver);
+                                }
+                                
                                 system("clear");
+                                op=0;
                                 break;
+                                //sleep(2);
+                                //system("clear");
 
                             case 2:
                                 system("clear");
@@ -93,7 +107,11 @@ int main(int argc, char **argv)
                             case 3:
                                 system("clear");
                                 printf("SE HA EJECUTADO BUSCAR CURSO\n");
-                                sleep(2);
+                                printf("INTRODUCE EL ID DEL CURSO A BUSCAR\n");
+                                int n;
+                                scanf("%d",&n);
+                                mostrar_curso(fichCursos,n);
+                                //sleep(2);
                                 system("clear");
                                 break;
 

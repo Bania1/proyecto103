@@ -8,7 +8,7 @@ int crear_curso(char *nF,int cod)
     FILE *fich=fopen(nF,"a");
     if(fich==NULL)
     {
-        printf("error al abrir el archivo\n");
+        printf("ERROR AL ABRIR FICHERO\n");
         exit(-1);
     }
     struct curso c;
@@ -116,8 +116,8 @@ void mostrar_curso(char *nF,int cod)
         if(c.id==cod)
         {
             printf("-------------------------------------------------\n");
-            printf("Curso: %s -------- Identidficador: [%d]\nDescripcion:\n%s\nPrecio: %d euros ----- Aforo: %d personas\nPonente 1: %s ----- Ponente 2: %s\n",c.nombre,c.id,c.descripcion,c.precio,c.aforo,c.ponente1,c.ponente2);
-            printf("fecha de inicio--> %d del %d del %d -- fecha de finalizacion--> %d del %d del %d\n",c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
+            printf("CURSO: %s -------- IDENTIFICADOR: [%d]\nDESCRIPCION:\n%s\nPRECIO: %d EUROS ----- AFORO: %d PERSONAS\nPONENTE 1: %s ----- PONENTE 2: %s\n",c.nombre,c.id,c.descripcion,c.precio,c.aforo,c.ponente1,c.ponente2);
+            printf("FECHA DE INICIO --> %d DEL %d DEL %d -- FECHA DE FINALIZACION --> %d DEL %d DEL %d\n",c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
             printf("-------------------------------------------------\n");
         }
     }
@@ -129,7 +129,7 @@ void mostrar_todos_cursos(char *nF)
     FILE *fich=fopen(nF,"r");
     if(fich==NULL)
     {
-        printf("error al abrir el archivo\n");
+        printf("ERROR AL ABRIR FICHERO\n");
         exit(-1);
     }
     struct curso c;
@@ -152,8 +152,8 @@ void mostrar_todos_cursos(char *nF)
         fscanf(fich,"%d %d %d\n",&c.dia_final,&c.mes_final,&c.anio_final);
 
         printf("-------------------------------------------------\n");
-        printf("Curso: %s -------- Identidficador: [%d]\nDescripcion:\n%s\nPrecio: %d euros ----- Aforo: %d personas\nPonente 1: %s ----- Ponente 2: %s\n",c.nombre,c.id,c.descripcion,c.precio,c.aforo,c.ponente1,c.ponente2);
-        printf("fecha de inicio--> %d del %d del %d -- fecha de finalizacion--> %d del %d del %d\n",c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
+        printf("CURSO: %s -------- IDENTIFICADOR: [%d]\nDESCRIPCION:\n%s\nPRECIO: %d EUROS ----- AFORO: %d PERSONAS\nPONENTE 1: %s ----- PONENTE 2: %s\n",c.nombre,c.id,c.descripcion,c.precio,c.aforo,c.ponente1,c.ponente2);
+        printf("FECHA DE INICIO --> %d DEL %d DEL %d -- FECHA DE FINALIZACION --> %d DEL %d DEL %d\n",c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
         printf("-------------------------------------------------\n");
     }
     fclose(fich);
@@ -200,13 +200,13 @@ int modificar_curso(char *nF,int cod)
     FILE *fich=fopen(nF,"r");
     if(fich==NULL)
     {
-        printf("error al abrir el archivo\n");
+        printf("ERROR AL ABRIR FICHERO\n");
         exit(-1);
     }
     FILE *fich2=fopen("auxf.txt","w");
     if(fich2==NULL)
     {
-        printf("error al abrir el archivo\n");
+        printf("ERROR AL ABRIR FICHERO\n");
         fclose(fich);
         exit(-1);
     }
@@ -334,13 +334,13 @@ int eliminar_curso(char *nF, int cod)
     FILE *fich=fopen(nF,"r");
     if(fich==NULL)
     {
-        printf("error al abrir el archivo\n");
+        printf("ERROR AL ABRIR FICHERO\n");
         exit(-1);
     }
     FILE *fich2=fopen("auxf.txt","w");
     if(fich2==NULL)
     {
-        printf("error al abrir el archivo\n");
+        printf("ERROR AL ABRIR FICHERO\n");
         fclose(fich);
         exit(-1);
     }
