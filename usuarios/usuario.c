@@ -60,6 +60,7 @@ void menu_admin()
     printf("13. AGREGAR USUARIO.\n");
     printf("14. BUSCAR USUARIO.\n");
     printf("15. ASIGNAR COORDINADOR.\n");
+    printf("16. VOLVER.\n");
     printf("\n");
     printf("\n");
     printf("\n");
@@ -84,6 +85,27 @@ void menu_coordinador_cursos()
     printf("8. ELIMINAR USUARIO.\n");
     printf("9. AGREGAR USUARIO.\n");
     printf("10. BUSCAR USUARIO.\n");
+    printf("11. VOLVER.\n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("\nINTRODUZCA EL NUMERO PARA ENTRAR EN LA OPCION QUE DESEE\n");
+    printf("---->");
+}
+
+void menu_coordinador_recursos()
+{
+    printf("\n----------------- CURSOS DE EXTENSION -----------------\n");
+    printf("\n               [COORDINADOR DE RECURSOS]\n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("1. VER CURSOS.\n");
+    printf("2. INSCRIBIRSE A UN CURSO.\n");
+    printf("3. ASIGNAR RECURSOS.\n");
+    printf("4. MODIFICAR RECURSOS.\n");
+    printf("5. ELIMINAR RECURSOS\n");    
+    printf("6. VOLVER.\n");
     printf("\n");
     printf("\n");
     printf("\n");
@@ -149,11 +171,11 @@ int iniciar_sesion(char *nf, struct user datos)
         if ((strcmp(datos.email, aux.email) == 0) && (strcmp(datos.password, aux.password) == 0))
         {
             fclose(fich);
-            return 1;
+            return 1; //con exito
         }
     }
     fclose(fich);
-    return 0;
+    return 0; //sin exito
 }
 
 void visualizar_informacion_usuarios(char *nf) //Falta añadir datos como el nombre y apellidos
@@ -179,12 +201,24 @@ int comprobar_correo(struct user datos)
     char curso[10]= "@curso";
     char recurso[10]= "@recurso";
 
-    if (strstr(datos.email, uco) == NULL)
+    if (strstr(datos.email, uco) != NULL)
     {
-        return 0; //sin exito
+        return 1; //con exito
+    }
+    else if (strstr(datos.email, admin) != NULL)
+    {
+        return 2; //con exito admin
+    }
+    else if (strstr(datos.email, curso) != NULL)
+    {
+        return 3; //con exito cursos
+    }
+    else if (strstr(datos.email, recurso) != NULL)
+    {
+        return 4; //con exito recursos
     }
     else
     {
-        return 1; //con exito
+        return 0; //sin exito 
     }
 }
