@@ -41,6 +41,7 @@ int iniciar_sesion(char *nf, struct user datos);
 void visualizar_informacion_usuarios(char *nf);
 void crear_cuenta(char *nf, struct user usuario);
 int comprobar_correo(struct user datos);
+void usuarios_en_curso(char *nF, int cod);
 /*int inscribirse_al_curso();
 int acceder_a_informacion();*/
 /*int gestionar_recursos();
@@ -61,5 +62,5 @@ int eliminar_curso(char *nF, int cod);
 int comprobar_fecha(char *nF,int cod);
 int inscribirse(char *nF1,char *nF2,int cod,char *usuario);
 int comprobar_inscripcion();
-
+void ver_mis_cursos(char *nF1,char*nF2,char *usuario);
 #endif

@@ -15,6 +15,7 @@ int main(int argc, char **argv)
     char *fichCursos = argv[2];
     char *fichInscripciones = argv[3];
     struct user usern;
+    int volver; //boton para volver
     
     //Hacemos el menu
     system("clear");
@@ -71,7 +72,7 @@ int main(int argc, char **argv)
                 {
                     system("clear");
                     int op=0;
-                    while (op != 4) //Menu cuando inicias sesion
+                    while (op != 5) //Menu cuando inicias sesion
                     {
                         menu_iniciado();
                         scanf("%d", &op); printf("\n");
@@ -88,20 +89,75 @@ int main(int argc, char **argv)
                                 while(volver != 1)
                                 {
                                     system("clear");
-                                    printf("ERROR, PRESIONE '1' PARA VOLVER\n");
+                                    printf("\nERROR, PRESIONE '1' PARA VOLVER.\n");
                                     scanf("%d", &volver);
                                 }
                                 
                                 system("clear");
                                 op=0;
+                                volver=0;
                                 break;
                                 //sleep(2);
                                 //system("clear");
 
                             case 2:
                                 system("clear");
-                                printf("SE HA EJECUTADO INSCRIBIRSE AL CURSO\n");
-                                sleep(2);
+                                printf("SE HA EJECUTADO INSCRIBIRSE AL CURSO\n\n");
+                                printf("INTRODUCE EL CODIGO DEL CURSO EN EL QUE QUIERES INSCRIBIRTE: ");
+                                int cod;
+                                scanf("%d",&cod);
+                                printf("\n");
+                                if(buscar_curso(fichCursos,cod)!=1)
+                                {
+                                    printf("CURSO INTRODUCIDO NO EXITENTE\n");
+                                    system("clear");
+                                    break;
+                                }
+                                if(comprobar_fecha(fichCursos,cod)==1)
+                                {
+                                    printf("EL CURSO SELECCIONADO HA EMPEZADO YA O HA ACABADO\n");
+                                    printf("\nPRESIONE '1' PARA VOLVER.\n");
+                                    scanf("%d", &volver);
+
+                                    while(volver != 1)
+                                    {
+                                        system("clear");
+                                        printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                        scanf("%d", &volver);
+                                    }
+                                
+                                    system("clear");
+                                    op=0;
+                                    volver=0;
+
+                                    break;
+                                }
+                                
+                                if(inscribirse(fichCursos,fichInscripciones,cod,usern.email)==1)
+                                {
+                                    printf("UNIDO CON EXITO AL CURSO CON CODIGO %d\n",cod);
+                                }
+                                else
+                                {
+                                    printf("CURSO CON AFORO COMPLETO\n");
+                                }
+                                
+                                printf("\nPRESIONE '1' PARA VOLVER.\n");
+                                scanf("%d", &volver);
+
+                                while(volver != 1)
+                                {
+                                    system("clear");
+                                    printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                    scanf("%d", &volver);
+                                }
+                            
+                                system("clear");
+                                op=0;
+                                volver=0;
+
+                            break;
+                                //sleep(2);
                                 system("clear");
                                 break;
                             case 3:
@@ -111,8 +167,39 @@ int main(int argc, char **argv)
                                 int n;
                                 scanf("%d",&n);
                                 mostrar_curso(fichCursos,n);
-                                //sleep(2);
+                                
+                                printf("\nPRESIONE '1' PARA VOLVER.\n");
+                                scanf("%d", &volver);
+
+                                while(volver != 1)
+                                {   
+                                    system("clear");
+                                    printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                    scanf("%d", &volver);
+                                }
+                            
                                 system("clear");
+                                op=0;
+                                volver=0;
+                                break;
+                            
+                            case 4:
+                                system("clear");
+                                printf("SE HA EJECUTADO VER MIS CURSOS\n");
+                                ver_mis_cursos(fichInscripciones,fichCursos,usern.email);
+                                
+                                printf("\nPRESIONE '1' PARA VOLVER.\n");
+                                scanf("%d", &volver);
+                                while(volver != 1)
+                                {   
+                                    system("clear");
+                                    printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                    scanf("%d", &volver);
+                                }
+                            
+                                system("clear");
+                                op=0;
+                                volver=0;
                                 break;
 
                             default:
@@ -135,8 +222,20 @@ int main(int argc, char **argv)
                         case 1:
                             system("clear");
                             printf("SE HA EJECUTADO VER CURSOS\n");
-                            sleep(2);
+                            mostrar_todos_cursos(fichCursos);
+                            
+                            printf("PRESIONE '1' PARA VOLVER.\n");
+                            scanf("%d", &volver);
+
+                            while(volver != 1)
+                            {
+                                system("clear");
+                                printf("ERROR, PRESIONE '1' PARA VOLVER\n");
+                                scanf("%d", &volver);
+                            }
+                            
                             system("clear");
+                            op3=0;
                             break;
 
                         case 2:
@@ -145,6 +244,29 @@ int main(int argc, char **argv)
                             sleep(2);
                             system("clear");
 
+                        case 10:
+                            system("clear");
+                            printf("\n----------------- USUARIOS EN LA BASE DE DATOS -----------------\n");
+                            printf("\n");
+                            printf("\n");
+                            printf("\n");
+
+                            visualizar_informacion_usuarios(fichUsuarios);
+                            printf("\nPRESIONE '1' PARA VOLVER.\n");
+                            scanf("%d", &volver);
+
+                            while(volver != 1)
+                            {
+                                system("clear");
+                                printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                scanf("%d", &volver);
+                            }
+                            
+                            system("clear");
+                            op3=0;
+                            volver=0;
+
+                            break;
                         default:
                             break;
                         }
@@ -166,8 +288,21 @@ int main(int argc, char **argv)
                         case 1:
                             system("clear");
                             printf("SE HA EJECUTADO VER CURSOS\n");
-                            sleep(2);
+                            mostrar_todos_cursos(fichCursos);
+                            int volver;
+                            printf("PRESIONE '1' PARA VOLVER.\n");
+                            scanf("%d", &volver);
+
+                            while(volver != 1)
+                            {
+                                system("clear");
+                                printf("ERROR, PRESIONE '1' PARA VOLVER\n");
+                                scanf("%d", &volver);
+                            }
+                            
                             system("clear");
+                            op4=0;
+                            volver=0;
                             break;
 
                         case 2:

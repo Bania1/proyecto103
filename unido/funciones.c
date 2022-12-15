@@ -14,65 +14,65 @@ int crear_curso(char *nF,int cod)
     struct curso c;
     c.id=cod;
 
-    printf("introduce el nombre del curso con codigo %d\n",c.id);
+    printf("INTRODUCE EL NOMBRE DEL CURSO CON CODIGO %d\n",c.id);
     fgets(c.nombre,200,stdin);
     c.nombre[strlen(c.nombre)-1]='\0';
     fflush(stdin);
 
-    printf("introduce la descipcion del curso con codigo %d\n",c.id);
+    printf("INTRODUCE LA DESCRIPCION DEL CURSO CON CODIGO %d\n",c.id);
     fgets(c.descripcion,200,stdin);
     c.descripcion[strlen(c.descripcion)-1]='\0';
     fflush(stdin);  
 
-    printf("introduce el nombre del primer ponente\n");
+    printf("INTRODUCE EL NOMBRE DEL PRIMER PONENTE\n");
     fgets(c.ponente1,200,stdin);
     c.ponente1[strlen(c.ponente1)-1]='\0';
 
-    printf("introduce el nombre del segundo ponente\n");
+    printf("INTRODUCE EL NOMBRE DEL SEGUNDO PONENTE\n");
     fgets(c.ponente2,200,stdin);
     c.ponente2[strlen(c.ponente2)-1]='\0';
 
-    printf("introduce el precio del curso con codigo %d\n",c.id);
+    printf("INTRODUCE EL PRECIO DEL CURSO CON CODIGO %d\n",c.id);
     scanf("%d",&c.precio);
-    printf("introduce el aforo del curso con codigo %d\n",c.id);
+    printf("INTRODUCE EL AFORO DEL CURSO CON CODIGO %d\n",c.id);
     scanf("%d",&c.aforo);
 
-    printf("introduce el primer dia del curso\n");
+    printf("INTRODUCE EL DIA DE INICIO DEL CURSO\n");
     scanf("%d",&c.dia_inicio);
     if((c.dia_inicio<1)||(c.dia_inicio>31))
     {
         fclose(fich);
         return 0;//error
     }
-    printf("introduce el mes de inicio del curso\n");
+    printf("INTRODUCE EL MES DE INICIO DEL CURSO\n");
     scanf("%d",&c.mes_inicio);
     if((c.mes_inicio<1)||(c.mes_inicio>12))
     {
         fclose(fich);
         return 0;//error
     }
-    printf("introduce el anio de inicio\n");
+    printf("INTRODUCE EL AÑO DE INICIO DEL CURSO\n");
     scanf("%d",&c.anio_inicio);
     if(c.anio_inicio<2022)
     {
         fclose(fich);
         return 0;//error
     }
-    printf("introduce el ultimo dia del curso\n");
+    printf("INTRODUCE EL DIA DE FINALIZACION DEL CURSO\n");
     scanf("%d",&c.dia_final);
     if((c.dia_final<1)||(c.dia_final>31))
     {
         fclose(fich);
         return 0;//error
     }
-    printf("introduce el mes de finalizacion\n");
+    printf("INTRODUCE EL MES DE FINALIZACION DEL CURSO\n");
     scanf("%d",&c.mes_final);
     if((c.mes_final<1)||(c.mes_final>12))
     {
         fclose(fich);
         return 0;//error
     }
-    printf("introduce el anio de finalizacion\n");
+    printf("INTRODUCE EL AÑO DE FINALIZACION DEL CURSO\n");
     scanf("%d",&c.anio_final);
     if(c.anio_final<c.anio_inicio)
     {
@@ -80,7 +80,9 @@ int crear_curso(char *nF,int cod)
         return 0;//error
     }
 
-    fprintf(fich,"%s\n%s\n%d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
+    c.inscritos=0;
+
+    fprintf(fich,"%s\n%s\n%d %d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.inscritos,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
 
     fclose(fich);
     return 1;//exito
@@ -91,7 +93,7 @@ void mostrar_curso(char *nF,int cod)
     FILE *fich=fopen(nF,"r");
     if(fich==NULL)
     {
-        printf("error al abrir el archivo\n");
+        printf("ERROR AL ABRIR EL FI\n");
         exit(-1);
     }
     struct curso c;
@@ -103,7 +105,7 @@ void mostrar_curso(char *nF,int cod)
         fgets(c.descripcion,200,fich);
         c.descripcion[strlen(c.descripcion)-1]='\0';
 
-        fscanf(fich,"%d %d %d\n",&c.id,&c.precio,&c.aforo);
+        fscanf(fich,"%d %d %d %d\n",&c.id,&c.precio,&c.aforo,&c.inscritos);
 
         fgets(c.ponente1,200,fich);
         c.ponente1[strlen(c.ponente1)-1]='\0';
@@ -141,7 +143,7 @@ void mostrar_todos_cursos(char *nF)
         fgets(c.descripcion,200,fich);
         c.descripcion[strlen(c.descripcion)-1]='\0';
 
-        fscanf(fich,"%d %d %d\n",&c.id,&c.precio,&c.aforo);
+        fscanf(fich,"%d %d %d %d\n",&c.id,&c.precio,&c.aforo,&c.inscritos);
 
         fgets(c.ponente1,200,fich);
         c.ponente1[strlen(c.ponente1)-1]='\0';
@@ -175,7 +177,7 @@ int buscar_curso(char *nF,int cod)
         fgets(c.descripcion,200,fich);
         c.descripcion[strlen(c.descripcion)-1]='\0';
 
-        fscanf(fich,"%d %d %d\n",&c.id,&c.precio,&c.aforo);
+        fscanf(fich,"%d %d %d %d\n",&c.id,&c.precio,&c.aforo,&c.inscritos);
 
         fgets(c.ponente1,200,fich);
         c.ponente1[strlen(c.ponente1)-1]='\0';
@@ -220,7 +222,7 @@ int modificar_curso(char *nF,int cod)
         fgets(c.descripcion,200,fich);
         c.descripcion[strlen(c.descripcion)-1]='\0';
 
-        fscanf(fich,"%d %d %d\n",&c.id,&c.precio,&c.aforo);
+        fscanf(fich,"%d %d %d %d\n",&c.id,&c.precio,&c.aforo,&c.inscritos);
 
         fgets(c.ponente1,200,fich);
         c.ponente1[strlen(c.ponente1)-1]='\0';
@@ -246,25 +248,25 @@ int modificar_curso(char *nF,int cod)
             c.nombre[strlen(c.nombre)-1]='\0';
             fflush(stdin);*/
 
-            printf("introduce la nueva descipcion del curso %s con codigo %d\n",c.nombre,cod);
+            printf("INTRODUCE LA NUEVA DESCRIPCION DEL CURSO %s con codigo %d\n",c.nombre,cod);
             fgets(c.descripcion,200,stdin);
             c.descripcion[strlen(c.descripcion)-1]='\0';
             fflush(stdin);  
             
-            printf("introduce el nombre del primer ponente del curso %s\n",c.nombre);
+            printf("INTRODUCE EL NOMBRE DEL PRIMER PONENTE DEL CURSO %s\n",c.nombre);
             fgets(c.ponente1,200,stdin);
             c.ponente1[strlen(c.ponente1)-1]='\0';
 
-            printf("introduce el nombre del segundo ponente del curso %s\n",c.nombre);
+            printf("INTRODUCE EL NOMBRE DEL SEGUNDO PONENTE DEL CURSO %s\n",c.nombre);
             fgets(c.ponente2,200,stdin);
             c.ponente2[strlen(c.ponente2)-1]='\0';
 
-            printf("introduce el nuevo precio del curso %s con codigo %d\n",c.nombre,cod);
+            printf("INTRODUCE EL NUEVO PRECIO DEL CURSO %s CON CODIGO %d\n",c.nombre,cod);
             scanf("%d",&c.precio);
-            printf("introduce el nuevo aforo del curso %s con codigo %d\n",c.nombre,cod);
+            printf("INTRODUCE EL NUEVO AFORO DEL CURSO %s CON CODIGO %d\n",c.nombre,cod);
             scanf("%d",&c.aforo);
 
-            printf("introduce el primer dia del curso\n");
+            printf("INTRODUCE EL PRIMER DIA DEL CURSO\n");
             scanf("%d",&c.dia_inicio);
             if((c.dia_inicio<1)||(c.dia_inicio>31))
             {
@@ -273,7 +275,7 @@ int modificar_curso(char *nF,int cod)
                 remove("auxf.txt");
                 return 0;//error
             }
-            printf("introduce el mes de inicio del curso\n");
+            printf("INTRODUCE EL MES DE INICIO DEL CURSO\n");
             scanf("%d",&c.mes_inicio);
             if((c.mes_inicio<1)||(c.mes_inicio>12))
             {
@@ -282,7 +284,7 @@ int modificar_curso(char *nF,int cod)
                 remove("auxf.txt");
                 return 0;//error
             }
-            printf("introduce el anio de inicio\n");
+            printf("INTRODUCE EL AÑO DE INICIO DEL CURSO\n");
             scanf("%d",&c.anio_inicio);
             if(c.anio_inicio<2022)
             {
@@ -291,7 +293,7 @@ int modificar_curso(char *nF,int cod)
                 remove("auxf.txt");
                 return 0;//error
             }
-            printf("introduce el ultimo dia del curso\n");
+            printf("INTRODUCE EL DIA DE FINALIZACION\n");
             scanf("%d",&c.dia_final);
             if((c.dia_final<1)||(c.dia_final>31))
             {
@@ -300,7 +302,7 @@ int modificar_curso(char *nF,int cod)
                 remove("auxf.txt");
                 return 0;//error
             }
-            printf("introduce el mes de finalizacion\n");
+            printf("INTRODUCE EL MES DE FINALIZACION\n");
             scanf("%d",&c.mes_final);
             if((c.mes_final<1)||(c.mes_final>12))
             {
@@ -309,7 +311,7 @@ int modificar_curso(char *nF,int cod)
                 remove("auxf.txt");
                 return 0;//error
             }
-            printf("introduce el anio de finalizacion\n");
+            printf("INTRODUCE EL AÑO DE FINALIZACION\n");
             scanf("%d",&c.anio_final);
             if(c.anio_final<c.anio_inicio)
             {
@@ -319,7 +321,7 @@ int modificar_curso(char *nF,int cod)
                 return 0;//error
             }
         }   
-        fprintf(fich2,"%s\n%s\n%d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
+        fprintf(fich2,"%s\n%s\n%d %d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.inscritos,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
     }
     
     fclose(fich);
@@ -354,7 +356,7 @@ int eliminar_curso(char *nF, int cod)
         fgets(c.descripcion,200,fich);
         c.descripcion[strlen(c.descripcion)-1]='\0';
 
-        fscanf(fich,"%d %d %d\n",&c.id,&c.precio,&c.aforo);
+        fscanf(fich,"%d %d %d %d\n",&c.id,&c.precio,&c.aforo,&c.inscritos);
 
         fgets(c.ponente1,200,fich);
         c.ponente1[strlen(c.ponente1)-1]='\0';
@@ -372,7 +374,7 @@ int eliminar_curso(char *nF, int cod)
 
         if(c.id!=cod)
         {
-            fprintf(fich2,"%s\n%s\n%d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
+            fprintf(fich2,"%s\n%s\n%d %d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.inscritos,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
         }   
     }
     
@@ -392,7 +394,7 @@ int comprobar_fecha(char *nF,int cod)//0=no ha empezado el curso, 1=ha emezado e
     day = local->tm_mday; 
     month = local->tm_mon + 1;
     year = local->tm_year + 1900;   
-    printf("hoy es %d del %d del %d\n",day,month,year);
+    printf("DIA ACTUAL: %d/%d/%d\n",day,month,year);
 
     FILE *fich=fopen(nF,"r");
     if(fich==NULL)
@@ -408,7 +410,7 @@ int comprobar_fecha(char *nF,int cod)//0=no ha empezado el curso, 1=ha emezado e
         fgets(c.descripcion,200,fich);
         c.descripcion[strlen(c.descripcion)-1]='\0';
 
-        fscanf(fich,"%d %d %d\n",&c.id,&c.precio,&c.aforo);
+        fscanf(fich,"%d %d %d %d\n",&c.id,&c.precio,&c.aforo,&c.inscritos);
 
         fgets(c.ponente1,200,fich);
         c.ponente1[strlen(c.ponente1)-1]='\0';
@@ -420,6 +422,8 @@ int comprobar_fecha(char *nF,int cod)//0=no ha empezado el curso, 1=ha emezado e
 
         if(c.id==cod)
         {
+            printf("COMIENZO DEL CURSO: %d/%d/%d\n",c.dia_inicio,c.mes_inicio,c.anio_inicio);
+            printf("FIN DEL CURSO: %d/%d/%d\n",c.dia_final,c.mes_final,c.anio_final);
             if(year>c.anio_inicio)
             {
                 fclose(fich);
@@ -474,7 +478,8 @@ void menu_iniciado()
     printf("1. VER CURSOS.\n");
     printf("2. INSCRIBIRSE A UN CURSO.\n");
     printf("3. BUSCAR CURSO.\n");
-    printf("4. VOLVER.\n");
+    printf("4. VER MIS CURSOS.\n");
+    printf("5. VOLVER.\n");
     printf("\n");
     printf("\n");
     printf("\n");
@@ -631,8 +636,7 @@ void visualizar_informacion_usuarios(char *nf) //Falta añadir datos como el nom
         exit(-1);
     }
     struct user aux;
-    while (fscanf(fich, "%s %s\n", aux.email, aux.password))
-    {
+    while (fscanf(fich, "%s %s\n", aux.email, aux.password)== 2)    {
         printf("EL CORREO DEL USUARIO ES: %s\n", aux.email);
     }
     fclose(fich);
@@ -666,3 +670,118 @@ int comprobar_correo(struct user datos)
         return 0; //sin exito 
     }
 }
+
+int inscribirse(char *nF1,char *nF2,int cod,char *usuario)
+{
+    FILE *fichCursos=fopen(nF1,"r");
+    if(fichCursos==NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        exit(-1);
+    }
+    FILE *fichIscripciones=fopen(nF2,"a");
+    if(fichIscripciones==NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(fichCursos);
+        exit(-1);
+    }
+
+    struct curso c;
+
+    while(fgets(c.nombre,200,fichCursos))
+    {
+        c.nombre[strlen(c.nombre)-1]='\0';
+
+        fgets(c.descripcion,200,fichCursos);
+        c.descripcion[strlen(c.descripcion)-1]='\0';
+
+        fscanf(fichCursos,"%d %d %d %d\n",&c.id,&c.precio,&c.aforo,&c.inscritos);
+
+        fgets(c.ponente1,200,fichCursos);
+        c.ponente1[strlen(c.ponente1)-1]='\0';
+        fgets(c.ponente2,200,fichCursos);
+        c.ponente2[strlen(c.ponente2)-1]='\0';
+
+        fscanf(fichCursos,"%d %d %d\n",&c.dia_inicio,&c.mes_inicio,&c.anio_inicio);
+        fscanf(fichCursos,"%d %d %d\n",&c.dia_final,&c.mes_final,&c.anio_final);
+
+        if(c.id==cod)
+        {
+            if(c.inscritos<c.aforo)
+            {
+                c.inscritos++;
+                fprintf(fichCursos,"%s\n%s\n%d %d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.inscritos,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
+                fprintf(fichIscripciones,"%d %s\n",cod,usuario);
+            }
+            /*else if(c.inscritos>=c.aforo)
+            {
+                fclose(fichCursos);
+                fclose(fichIscripciones);
+                return 0;
+            }*/
+        }
+    }
+    fclose(fichCursos);
+    fclose(fichIscripciones);
+    return 1;
+}
+
+/*void usuarios_en_curso(char *nF,int cod)
+{
+    FILE *fichInscripciones=fopen(nF, "r");
+    if(fichInscripciones = NULL)
+    {
+        printf("ERROR EN ABRIR EL FICHERO\n");
+        exit(-1);
+    }
+    struct user u;
+    struct curso c;
+    while(fscanf(fichInscripciones,"%d %s\n",c.id,u.email) == 2)
+    {
+        if (cod == c.id)
+        {
+            printf("\nUSUARIO: %s\n", u.email);
+        }
+        else
+        {
+            printf("\nEL USUARIO NO SE ENCUENTRA EN EL CURSO\n");
+        }
+    }
+    fclose(fichInscripciones);
+}*/
+
+void ver_mis_cursos(char *nF1,char*nF2,char *usuario)
+{
+    FILE *fichInscripciones=fopen(nF1, "r");
+    if(fichInscripciones == NULL)
+    {
+        printf("ERROR EN ABRIR EL FICHERO\n");
+        exit(-1);
+    }
+    FILE *fichCursos=fopen(nF2, "r");
+    if(fichCursos == NULL)
+    {
+        printf("ERROR EN ABRIR EL FICHERO\n");
+        fclose(fichInscripciones);
+        exit(-1);
+    }
+    int id;
+    char *email;
+
+    while(fscanf(fichInscripciones,"%d %s\n",&id,email) == 2)
+    {
+        if (usuario == email)
+        {
+            printf("%d %s\n",id,email);
+            mostrar_curso(nF2,id);
+        }
+    }
+    fclose(fichCursos);
+    fclose(fichInscripciones);
+}
+
+
+
+
+
