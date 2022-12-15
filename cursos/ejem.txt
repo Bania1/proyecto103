@@ -3,12 +3,8 @@ ing soft
 1 12 34
 aurora
 eseba
-6 1 2023
-23 2 2023
 bd
 base de daatos
 2 34 4
 gomez
 nieto
-1 12 2020
-31 12 2024
