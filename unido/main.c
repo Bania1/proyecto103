@@ -155,11 +155,8 @@ int main(int argc, char **argv)
                                 system("clear");
                                 op=0;
                                 volver=0;
-
-                            break;
-                                //sleep(2);
-                                system("clear");
                                 break;
+                                
                             case 3:
                                 system("clear");
                                 printf("SE HA EJECUTADO BUSCAR CURSO\n");

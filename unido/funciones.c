@@ -679,11 +679,20 @@ int inscribirse(char *nF1,char *nF2,int cod,char *usuario)
         printf("ERROR AL ABRIR FICHERO\n");
         exit(-1);
     }
+    FILE *fichAux=fopen("aux.txt","w");
+    if(fichCursos==NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(fichCursos);
+        exit(-1);
+    }
     FILE *fichIscripciones=fopen(nF2,"a");
     if(fichIscripciones==NULL)
     {
         printf("ERROR AL ABRIR FICHERO\n");
         fclose(fichCursos);
+        fclose(fichAux);
+        remove("aux.txt");
         exit(-1);
     }
 
@@ -711,45 +720,45 @@ int inscribirse(char *nF1,char *nF2,int cod,char *usuario)
             if(c.inscritos<c.aforo)
             {
                 c.inscritos++;
-                fprintf(fichCursos,"%s\n%s\n%d %d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.inscritos,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
                 fprintf(fichIscripciones,"%d %s\n",cod,usuario);
             }
             /*else if(c.inscritos>=c.aforo)
             {
+                llamada a la funcion de waitlist
                 fclose(fichCursos);
                 fclose(fichIscripciones);
                 return 0;
             }*/
         }
+        fprintf(fichAux,"%s\n%s\n%d %d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.inscritos,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
     }
     fclose(fichCursos);
     fclose(fichIscripciones);
+    fclose(fichAux);
+    remove(nF1);
+    rename("aux.txt",nF1);
     return 1;
 }
 
-/*void usuarios_en_curso(char *nF,int cod)
+void usuarios_en_curso(char *nF,int cod)
 {
     FILE *fichInscripciones=fopen(nF, "r");
-    if(fichInscripciones = NULL)
+    if(fichInscripciones == NULL)
     {
         printf("ERROR EN ABRIR EL FICHERO\n");
         exit(-1);
     }
     struct user u;
     struct curso c;
-    while(fscanf(fichInscripciones,"%d %s\n",c.id,u.email) == 2)
+    while(fscanf(fichInscripciones,"%d %s\n",&c.id,u.email) == 2)
     {
         if (cod == c.id)
         {
             printf("\nUSUARIO: %s\n", u.email);
         }
-        else
-        {
-            printf("\nEL USUARIO NO SE ENCUENTRA EN EL CURSO\n");
-        }
     }
     fclose(fichInscripciones);
-}*/
+}
 
 void ver_mis_cursos(char *nF1,char*nF2,char *usuario)
 {
@@ -771,9 +780,8 @@ void ver_mis_cursos(char *nF1,char*nF2,char *usuario)
 
     while(fscanf(fichInscripciones,"%d %s\n",&id,email) == 2)
     {
-        if (usuario == email)
+        if (strcmp(usuario,email)==0)
         {
-            printf("%d %s\n",id,email);
             mostrar_curso(nF2,id);
         }
     }

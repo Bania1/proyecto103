@@ -63,4 +63,5 @@ int comprobar_fecha(char *nF,int cod);
 int inscribirse(char *nF1,char *nF2,int cod,char *usuario);
 int comprobar_inscripcion();
 void ver_mis_cursos(char *nF1,char*nF2,char *usuario);
+
 #endif
