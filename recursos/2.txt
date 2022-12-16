@@ -1,0 +1,28 @@
+is
+ingenieria del software
+1 90 30 1
+auaroroa noeq
+angel aute
+1 11 2023
+21 12 2024
+bd
+base de datos
+2 40 30 1
+miguel angel
+gomez nieto
+1 12 2023
+5 4 2024
+biblio
+sala de trabajo
+3 0 20 0
+eseeba caraca
+angel boste
+20 12 2023
+30 12 2024
+domino
+reglas del domino
+4 0 12 0
+eseba
+alvaro
+20 12 2023
+23 4 2024
