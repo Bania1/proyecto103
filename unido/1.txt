@@ -1,7 +1,7 @@
 i12bania@admin 1234
 i12fepaf@admin 1234
-1234@uco.es 1234
-@uco.es 1234
+cambio@uco.es 1234
+eje@uco.es 1234
 eje@uco.es 1234
 @curso 1234
 @recurso 1234

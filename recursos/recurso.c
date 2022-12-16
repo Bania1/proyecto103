@@ -53,74 +53,119 @@ void asignar_recursos(char *nF, int cod)
             }
             else
             {
-               
-                    
+                bool flagcontcam,flagcontaul,flagcontproy = false;
+
+                while(flagcontaul == false)
+                {
+                    if(cont_clas < total_clas)
+                    {
                         bool flag1 = false;
                         while(flag1 == false)
                         {
                             
-                            printf("Introduce el numero de aulas que desea asignar--->MAXIMO 3\n");
+                            printf("Introduce el numero de aulas que desea asignar--->QUEDAN LIBRES: %d\n",(total_clas-cont_clas));
                             scanf("%d",&r.aulas);
-                            flag1 = true;
-                            if(r.aulas > 3)
+                            
+                            While(r.aulas >(total_clas-cont_clas))
                             {
-                                printf("ERROR->Solo pueden ser asignadas un máximo de 3 aulas por curso\n");
-                                flag1 = false;
+                                printf("LA CANTIDAD DE AULAS INTRODUCIDAS EXCEDE EL LIMITE\n");
+                                scanf("%d",&r.aulas);
                             }
-                            else if(r.aulas < 0)
+                            flag1 = true;
+                            if(r.aulas < 0)
                             {
                                 printf("ERROR->No puede ser asigando un numero negativo de aulas\n");
                                 flag1 = false;
                             }
                         }
-                        
 
+                        cont_clas = cont_clas + r.aulas;
+                        flagcontaul = true;
+                    }
+                    else
+                    {
+                        printf("No quedan aulas libres para asignar\n");
+                        flagcontaul = false;
+                    }
+                }
+               
                     
-                    
-                        bool flag2 = false;
-                        while(flag2 == false)
+                while(flagcontcam == false)
+                    {
+                        if(cont_cam < total_cam)
                         {
-                         
-                            printf("Introduce el numero de camaras que desea asignar--->MAXIMO 40\n");
-                            scanf("%d",&r.camaras);
-                            flag2 = true;
-                            if(r.camaras > 40)
+                            bool flag2 = false;
+
+                            while(flag2 == false)
                             {
-                                printf("ERROR->Solo pueden ser asignadas un máximo de 40 camaras por curso\n");
-                                flag2 = false;
+                                printf("INTRODUCE EL NUMERO DE AULAS QUE DESEA ASIGNAR->QUEDAN LIBRES: %d\n",total_cam);
+                                scanf("%s",r.camaras);
+                                flag2 = true;
+                                if(r.camaras < 0)
+                                {
+                                    printf("ERROR->NO PUEDE SER ASIGNADO UN NUMERO NEGATIVO DE CAMARAS\n");
+                                    flag2 = false;
+                                }
+
+                                
                             }
-                            else if(r.camaras < 0)
-                            {
-                                printf("ERROR->No puede ser asigando un numero negativo de camaras\n");
-                                flag2 = false;
-                            }
+
+                            cont_cam++;
+                            total_cam--;
+                            flagcontcam = true;
+                           
+                        }
+                        else
+                        {
+                            printf("No quedan camaras libres para asignar\n");
+                            flagcontcam = false;
                         }
                         
+                        
+                    }    
+                        
 
-                    
-                        bool flag3 = false;
-                        while(flag3 == false)
-                        {
-                            printf("Introduce el numero de proyectores que desea asignar--->MAXIMO 20\n");
-                            scanf("%d",&r.proyectores);
-                            flag3 = true;
-                            if(r.proyectores > 20)
+                while(flagcontproy == false)
+                    {
+                        
+                            if(cont_proy < total_proy)
                             {
-                                printf("ERROR->Solo puede ser asignadas un máximo de 20 proyectores por curso\n");
-                                flag3 = false;
+                                bool flag3 = false;
+                                while(flag3 == false)
+                                {
+                                    printf("INTRODUCE EL NUMERO DE PROYECTORES QUE DESEEN ASIGNAR->QUEDAN LIBRES: %d\n");
+                                    scanf("%s",r.proyectores);
+                                    flag3 = true;
+
+                                    if(r.proyectores < 0)
+                                    {
+                                        printf("ERROR-NO PUEDE SER ASIGNADO UN NUMERO NEGATIVO DE PROYECTORES\n");
+                                        flag3 = false;
+                                    }
+
+                                    
+                                    
+                                }
+                                cont_proy++;
+                                total_proy--;
+                                flagcontproy = true;
+                                
                             }
-                            else if(r.proyectores < 0)
+                            else
                             {
-                                printf("ERROR->No puede ser asigando un numero negativo de proyectores\n");
-                                flag3 = false;
+                                printf("No quedan proyectores libres para asignar\n");
+                                flagcontproy = false;
                             }
-                        }
+                           
+                        
+                       
+                    }
                         
 
                    
                 }
                 
-                fprintf(fich2,"%s\n%d\n%d %d %d\n",c.nombre,c.id,r.aulas,r.camaras,r.proyectores);    
+                fprintf(fich2,"%d %d %d %d\n",c.id,r.aulas,r.camaras,r.proyectores);    
             }
 
             
@@ -154,15 +199,10 @@ int buscar_recurso(char *nF,int id)
     {
         fseek(fich,0,SEEK_SET);
 
-        while(fgets(c.nombre,200,fich))
+        while(fscanf(fich,"%d %d %d %d\n",&c.id,&r.aulas,&r.camaras,&r.proyectores) == 4)
         {
-            c.nombre[strlen(c.nombre)-1]='\0';
-
-            fscanf(fich,"%d\n",&c.id);
-
-            fscanf(fich,"%d %d %d\n",&r.aulas,&r.camaras,&r.proyectores);
         
-          if(c.id == id)
+            if(c.id == id)
             {
                 return 1;
                 fclose(fich);
@@ -193,17 +233,12 @@ void modificar_recursos(char *nF,int cod)
     struct curso c;
     struct recurso r;
 
-        while(fgets(c.nombre,200,fich))
+        while(fscanf(fich,"%d %d %d %d\n",&c.id,&r.aulas,&r.camaras,&r.proyectores) == 4)
         {
-            c.nombre[strlen(c.nombre)-1]='\0';
-
-            fscanf(fich,"%d\n",&c.id);
-
-            fscanf(fich,"%d %d %d\n",&r.aulas,&r.camaras,&r.proyectores);
 
             if(c.id == cod)
             {
-                bool flag;
+                bool flag=false;
                 while(flag == false)
                 {
                     char tipo[50];
@@ -289,7 +324,7 @@ void modificar_recursos(char *nF,int cod)
            
          }                 
 
-        fprintf(fich2,"%s\n%d\n%d %d %d\n",c.nombre,c.id,r.aulas,r.camaras,r.proyectores);
+        fprintf(fich2,"%d %d %d %d\n",c.id,r.aulas,r.camaras,r.proyectores);
     }
 
     fclose(fich);
@@ -317,19 +352,43 @@ void eliminar_recurso(char *nF,int cod)
     struct curso c;
     struct recurso r;
 
-
-    while(fgets(c.nombre,200,fich))
+    while(fscanf(fich,"%d %d %d %d\n",&c.id,&r.aulas,&r.camaras,&r.proyectores) == 4)
     {
-        c.nombre[strlen(c.nombre)-1]='\0';
-
-        fscanf(fich,"%d\n",&c.id);
-
-        fscanf(fich,"%d %d %d\n",&r.aulas,&r.camaras,&r.proyectores);
-
-        if(c.id!=cod)
+        if(c.id == cod)
         {
-            fprintf(fich2,"%s\n%d\n%d %d %d\n",c.nombre,c.id,r.aulas,r.camaras,r.proyectores);
+            bool flag = false;
+
+            while(flag == false)
+            {
+                char tipo[50];
+                printf("Introduzca el tipo de recurso a eliminar\n");
+                printf("'Aula', 'Camara' o 'Proyector'\n");
+                scanf("%s",tipo);
+                flag = true;
+            
+                if(strcmp("Aula",tipo) == 0)
+                {
+                    r.aulas = 0;
+                }
+                else if(strcmp("Camara",tipo) == 0)
+                {
+                    r.camaras = 0;
+                }
+                else if(strcmp("Proyectores",tipo) == 0)
+                {
+                    r.proyectores = 0;
+                }
+                else
+                {
+                    printf("ERROR-Debes introducir 'Aula','Camara' o 'Proyector'\n");
+                    flag = false;
+                }
+            }
+ 
+
         }
+
+        fprintf(fich2,"%d %d %d %d\n",c.id,r.aulas,r.camaras,r.proyectores);
 
     }
 

@@ -44,12 +44,11 @@ int comprobar_correo(struct user datos);
 void usuarios_en_curso(char *nF, int cod);
 int buscar_usuario(char *nF1, char *email);
 void mostrar_usuario(char *nF1, char *email);
-/*int inscribirse_al_curso();
-int acceder_a_informacion();*/
+int eliminar_usuario_del_curso(char *nF,int cod,char *usuario);
+int eliminar_usuario_de_waitlist(char *nF,int cod,char *usuario);
+int modificar_usuarios(char *nF1, char *nF2, char *email);
 /*int gestionar_recursos();
-int crear_cursos();
 int gestionar_permisos();
-int modificar_curso();
 int gestionar_plazas();*/
 
 

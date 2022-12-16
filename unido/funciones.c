@@ -518,7 +518,9 @@ void menu_admin()
     printf("14. BUSCAR USUARIO.\n");
     printf("15. ASIGNAR COORDINADOR.\n");
     printf("16. VER LISTA DE ESPERA DE UN CURSO.\n");
-    printf("17. VOLVER.\n");
+    printf("17. ELIMINAR USUARIO DE UN CURSO.\n");//HE AÑADIDO ESTA Y LA DE ABAJO, HAY Q MODIFICAR EL SWITCH, AÑADIRLAS AL COORDINADOR Y PROBARLAS
+    printf("18. ELIMINAR USUARIO DE UNA LISTA DE ESPERA.\n");
+    printf("19. VOLVER.\n");
     printf("\n");
     printf("\n");
     printf("\n");
@@ -919,5 +921,195 @@ void mostrar_usuario(char *nF1, char *email)
     fclose(fichUsuarios);
 }
 
+int modificar_usuarios(char *nF1, char *nF2, char *email)
+{
+    FILE *ficheroUsuarios=fopen(nF1, "r");
+    if (ficheroUsuarios == NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        exit(-1);
+    }
+    FILE *ficheroInscripcion=fopen(nF2, "r");
+    if (ficheroInscripcion == NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(ficheroUsuarios);
+        exit(-1);
+    }
+    FILE *fich_aux1=fopen("aux1.txt", "w");
+    if (fich_aux1 == NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(ficheroUsuarios);
+        fclose(ficheroInscripcion);
+        remove("aux1.txt");
+        remove("aux2.txt");
+        exit(-1);
+    }
+    FILE *fich_aux2=fopen("aux2.txt", "w");
+    if (fich_aux2 == NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(ficheroUsuarios);
+        fclose(ficheroInscripcion);
+        remove("aux1.txt");
+        remove("aux2.txt");
+        exit(-1);
+    }
 
+    char x[200];
+    fgets(x,200,stdin);
+    x[strlen(x)-1]='\0';
 
+    struct user aux1;
+    struct user aux2;
+
+    char cadena[200];
+    int codigo;
+
+    if(buscar_usuario(nF1, email) != 1)
+    {
+        fclose(ficheroUsuarios);
+        fclose(ficheroInscripcion);
+        fclose(fich_aux1);
+        fclose(fich_aux2);
+        remove("aux1.txt");
+        remove("aux2.txt");
+        return 0; //Sin exito
+    }
+    
+    while (fscanf(ficheroUsuarios, "%s %s\n", aux1.email, aux1.password) == 2)
+    {  
+        if(strcmp(email, aux1.email) == 0)
+        {
+            printf("NUEVO CORREO: ");
+            fgets(aux1.email,200,stdin);
+            aux1.email[strlen(aux1.email)-1]='\0';
+            fflush(stdin);
+            
+            printf("NUEVA CONTRASEÑA: ");
+            fgets(aux1.password,200,stdin);
+            aux1.password[strlen(aux1.password)-1]='\0';
+            fflush(stdin);
+
+            aux2=aux1;
+        }
+        fprintf(fich_aux1, "%s %s\n", aux1.email, aux1.password);
+    }
+    
+    while (fscanf(ficheroInscripcion, "%d %s %s\n", &codigo, aux1.email, cadena) == 3)
+    {
+        if (strcmp(email,aux1.email) == 0)
+        {
+            aux1=aux2;
+        }
+        fprintf(fich_aux2, "%d %s %s\n", codigo, aux1.email, cadena);
+    }
+
+    fclose(ficheroUsuarios);
+    fclose(ficheroInscripcion);
+    fclose(fich_aux1);
+    fclose(fich_aux2);
+    remove(nF1);
+    remove(nF2);
+    rename("aux1.txt",nF1);
+    rename("aux2.txt",nF2);
+    
+    return 1; //Con exito
+}
+
+int eliminar_usuario_del_curso(char *nF,int cod,char *usuario)
+{
+    FILE *fichInscripciones=fopen(nF, "r");
+    if(fichInscripciones == NULL)
+    {
+        printf("ERROR EN ABRIR EL FICHERO\n");
+        exit(-1);
+    }
+    FILE *fichAux=fopen("aux.txt", "w");
+    if(fichAux == NULL)
+    {
+        printf("ERROR EN ABRIR EL FICHERO\n");
+        fclose(fichInscripciones);
+        exit(-1);
+    }
+    struct user u;
+    struct curso c;
+    char *status;
+    char *dentro="dentro";
+    char *espera="espera";
+    int retorno=1;
+
+    
+    while(fscanf(fichInscripciones,"%d %s %s\n",&c.id,u.email,status) == 3)
+    {
+        if(strstr(status,"dentro")!=NULL)
+        {
+            if(cod!=c.id)
+            {
+                fprintf(fichAux,"%d %s %s\n",cod,usuario,dentro);
+            }
+            else
+            {
+                retorno=0;//no existe el usuario
+            }
+        }
+        else if(strstr(status,"espera")!=NULL)
+        {
+            fprintf(fichAux,"%d %s %s\n",cod,usuario,espera);
+        }   
+    }
+    fclose(fichInscripciones);
+    fclose(fichAux);
+    remove(nF);
+    rename("aux.txt",nF);
+    return retorno;
+}
+
+int eliminar_usuario_de_waitlist(char *nF,int cod,char *usuario)
+{
+    FILE *fichInscripciones=fopen(nF, "r");
+    if(fichInscripciones == NULL)
+    {
+        printf("ERROR EN ABRIR EL FICHERO\n");
+        exit(-1);
+    }
+    FILE *fichAux=fopen("aux.txt", "w");
+    if(fichAux == NULL)
+    {
+        printf("ERROR EN ABRIR EL FICHERO\n");
+        fclose(fichInscripciones);
+        exit(-1);
+    }
+    struct user u;
+    struct curso c;
+    char *status;
+    char *dentro="dentro";
+    char *espera="espera";
+    int retorno=1;
+
+    
+    while(fscanf(fichInscripciones,"%d %s %s\n",&c.id,u.email,status) == 3)
+    {
+        if(strstr(status,"espera")!=NULL)
+        {
+            if(cod!=c.id)
+            {
+                fprintf(fichAux,"%d %s %s\n",cod,usuario,espera);
+            }
+            else
+            {
+                retorno=0;//no existe el usuario
+            }
+        }
+        else if(strstr(status,"dentro")!=NULL)
+        {
+            fprintf(fichAux,"%d %s %s\n",cod,usuario,dentro);
+        }   
+    }
+    fclose(fichInscripciones);
+    fclose(fichAux);
+    remove(nF);
+    rename("aux.txt",nF);
+    return retorno;
+}

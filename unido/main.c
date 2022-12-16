@@ -518,6 +518,56 @@ int main(int argc, char **argv)
                             volver=0;
 
                             break;
+
+                        case 11: 
+                            system("clear");
+                            printf("INTRODUCE EL CORREO QUE DESEA MODIFICAR\n");
+                            printf("---->");
+                            scanf("%s", usern.email);
+
+                            if (modificar_usuarios(fichUsuarios, fichInscripciones, usern.email) != 1)
+                            {
+                                system("clear");
+                                printf("ERROR AL MODIFICAR USUARIO, EL CORREO INTRODUCIDO NO EXISTE.\n");
+                                printf("\nPRESIONE '1' PARA VOLVER.\n");
+                                scanf("%d", &volver);
+
+                                while(volver != 1)
+                                {
+                                    system("clear");
+                                    printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                    scanf("%d", &volver);
+                                }
+                            
+                                system("clear");
+                                op=0;
+                                volver=0;
+
+                                break;
+                            }
+                            else //if(modificar_usuarios(fichUsuarios, fichInscripciones, usern.email) == 1) si pones esto, no funciona, no  se pq
+                            {
+                                
+                                system("clear");
+                                printf("\nUSUARIO MODIFICADO CON EXITO.\n");
+                            }
+                            
+                            printf("\nPRESIONE '1' PARA VOLVER.\n");
+                            scanf("%d", &volver);
+
+                            while(volver != 1)
+                            {
+                                system("clear");
+                                printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                scanf("%d", &volver);
+                            }
+                        
+                            system("clear");
+                            op=0;
+                            volver=0;
+
+                            break;
+
                         case 13:
                             system("clear");
 
@@ -534,7 +584,7 @@ int main(int argc, char **argv)
 
                                 if((comprobar == 0 ) || (comprobar == 2) || (comprobar == 3) || (comprobar == 4))
                                 {
-                                    printf("\nCORREO NO VALIDO, TIENE QUE SER '@curso' || '@recurso'\n\n");
+                                    printf("\nCORREO NO VALIDO, TIENE QUE SER '@uco.es'\n\n");
                                     cont2++;
                                     sleep(2);
                                     system("clear");
@@ -552,6 +602,7 @@ int main(int argc, char **argv)
                             system("clear");
                             
                             break;
+
                         case 14:
                             system("clear");
                             printf("INTRODUZCA EL CORREO DEL USUARIO A BUSCAR\n");
@@ -602,7 +653,7 @@ int main(int argc, char **argv)
 
                             menu_creando_usuario();
                             
-                            int cont2=0;
+                            cont2=0;
 
                             while(cont2 < 3)
                             {
