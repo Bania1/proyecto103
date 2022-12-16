@@ -15,14 +15,14 @@ int main(int argc, char **argv)
 
     
 
-    /*if(crear_curso(nF,4)==1)
+    if(crear_curso(nF,4)==1)
     {
         printf("exito\n");
     }
     else
     {
         printf("error fecha\n");
-    }*/
+    }
     //mostrar_curso(nF,3); 
     //mostrar_todos_cursos(nF);
     /*if(buscar_curso(nF,1)==1)
