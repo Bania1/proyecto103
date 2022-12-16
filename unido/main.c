@@ -313,19 +313,12 @@ int main(int argc, char **argv)
                                 break;
 
                         case 3:
-                            fflush(stdin);
-                            clearerr(stdin);
                             system("clear");
                             curson.id=0;
                             printf("ID DEL CURSO A CREAR: ");
-                            fflush(stdin);
-                            clearerr(stdin);
                             scanf("%d",&curson.id);
-                            
-                            fflush(stdin);
-                            clearerr(stdin);
 
-                            if(buscar_curso(fichCursos, curson.id) == 1)
+                            if(buscar_curso(fichCursos,curson.id) == 1)
                             {
                                 system("clear");
                                 printf("ERROR AL CREAR CURSO, PUEDE QUE EL ID ESTE YA UTILIZADO.\n");
@@ -348,8 +341,6 @@ int main(int argc, char **argv)
                             
                             else if(buscar_curso(fichCursos, curson.id) == 0)
                             {
-                                //fflush(stdin);
-                                //clearerr(stdin);
                                 if(crear_curso(fichCursos,curson.id) == 1)
                                 {
                                     system("clear");
@@ -527,7 +518,40 @@ int main(int argc, char **argv)
                             volver=0;
 
                             break;
+                        case 13:
+                            system("clear");
 
+                            menu_creando_usuario();
+                            
+                            int cont2=0;
+
+                            while(cont2 < 3)
+                            {
+                                printf("CORREO: "); scanf("%s", usern.email);
+                                printf("CONTRASEÑA: "); scanf("%s", usern.password);
+
+                                int comprobar = comprobar_correo(usern);
+
+                                if((comprobar == 0 ) || (comprobar == 2) || (comprobar == 3) || (comprobar == 4))
+                                {
+                                    printf("\nCORREO NO VALIDO, TIENE QUE SER '@curso' || '@recurso'\n\n");
+                                    cont2++;
+                                    sleep(2);
+                                    system("clear");
+                                    menu_creando_usuario();
+                                }
+                                else
+                                {
+                                    crear_cuenta(fichUsuarios, usern);
+                                    cont2=3;
+                                }
+                            }
+
+                            printf("\nUSUARIO CREADO CON EXITO.\n");
+                            sleep(2);
+                            system("clear");
+                            
+                            break;
                         case 14:
                             system("clear");
                             printf("INTRODUZCA EL CORREO DEL USUARIO A BUSCAR\n");

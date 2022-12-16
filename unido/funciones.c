@@ -13,6 +13,11 @@ int crear_curso(char *nF,int cod)
     }
     struct curso c;
     c.id=cod;
+
+    char x[200];
+    fgets(x,200,stdin);
+    x[strlen(x)-1]='\0';
+
     printf("INTRODUCE EL NOMBRE DEL CURSO CON CODIGO %d\n",c.id);
     fgets(c.nombre,200,stdin);
     c.nombre[strlen(c.nombre)-1]='\0';
@@ -214,6 +219,9 @@ int modificar_curso(char *nF,int cod)
     }
 
     struct curso c;
+    char x[200];
+    fgets(x,200,stdin);
+    x[strlen(x)-1]='\0';
 
     while(fgets(c.nombre,200,fich))
     {
@@ -509,7 +517,8 @@ void menu_admin()
     printf("13. AGREGAR USUARIO.\n");
     printf("14. BUSCAR USUARIO.\n");
     printf("15. ASIGNAR COORDINADOR.\n");
-    printf("16. VOLVER.\n");
+    printf("16. VER LISTA DE ESPERA DE UN CURSO.\n");
+    printf("17. VOLVER.\n");
     printf("\n");
     printf("\n");
     printf("\n");
@@ -534,7 +543,8 @@ void menu_coordinador_cursos()
     printf("8. ELIMINAR USUARIO.\n");
     printf("9. AGREGAR USUARIO.\n");
     printf("10. BUSCAR USUARIO.\n");
-    printf("11. VOLVER.\n");
+    printf("11. VER LISTA DE ESPERA DE UN CURSO.\n");
+    printf("12. VOLVER.\n");
     printf("\n");
     printf("\n");
     printf("\n");
