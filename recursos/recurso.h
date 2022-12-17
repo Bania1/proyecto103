@@ -23,6 +23,7 @@ int cont_clas = 0;
 int cont_cam = 0;
 
 int cont_proy = 0;
+//id camaras aulas proyectores   - - -
 
 
 

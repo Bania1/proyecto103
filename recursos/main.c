@@ -17,8 +17,7 @@ int main(int argc, char **argv)
     printf("Introduce el codigo del curso que desea\n");
     scanf("%d",&cod);
     asignar_recursos(nF1,cod);
-    //modificar_recursos(nF1,cod);
-
+    modificar_recursos(nF1,cod);
     eliminar_recurso(nF1,cod);
 
     //asignar_recursos(nF1,cod);

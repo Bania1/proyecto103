@@ -47,6 +47,7 @@ void mostrar_usuario(char *nF1, char *email);
 int eliminar_usuario_del_curso(char *nF,int cod,char *usuario);
 int eliminar_usuario_de_waitlist(char *nF,int cod,char *usuario);
 int modificar_usuarios(char *nF1, char *nF2, char *email);
+int eliminar_usuario(char *nF1, char *nF2, char *email);
 /*int gestionar_recursos();
 int gestionar_permisos();
 int gestionar_plazas();*/
