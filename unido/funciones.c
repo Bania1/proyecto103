@@ -542,13 +542,11 @@ void menu_coordinador_cursos()
     printf("5.  ELIMINAR CURSO.\n");
     printf("6.  BUSCAR CURSO.\n");
     printf("7.  VISUALIZAR USUARIOS.\n");
-    printf("8.  ELIMINAR USUARIO.\n");
-    printf("9.  AGREGAR USUARIO.\n");
-    printf("10. BUSCAR USUARIO.\n");
-    printf("11. VER LISTA DE ESPERA DE UN CURSO.\n");
-    printf("12. ELIMINAR USUARIO DE UN CURSO.\n");//HE AÑADIDO ESTA Y LA DE ABAJO, HAY Q MODIFICAR EL SWITCH, AÑADIRLAS AL COORDINADOR Y PROBARLAS
-    printf("13. ELIMINAR USUARIO DE UNA LISTA DE ESPERA.\n");
-    printf("14. VOLVER.\n");
+    printf("8.  BUSCAR USUARIO.\n");
+    printf("9.  VER LISTA DE ESPERA DE UN CURSO.\n");
+    printf("10. ELIMINAR USUARIO DE UN CURSO.\n");//HE AÑADIDO ESTA Y LA DE ABAJO, HAY Q MODIFICAR EL SWITCH, AÑADIRLAS AL COORDINADOR Y PROBARLAS
+    printf("11. ELIMINAR USUARIO DE UNA LISTA DE ESPERA.\n");
+    printf("12. VOLVER.\n");
     printf("\n");
     printf("\n");
     printf("\n");

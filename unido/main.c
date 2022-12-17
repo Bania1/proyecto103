@@ -873,7 +873,7 @@ int main(int argc, char **argv)
                 {
                     system("clear");
                     op=0;
-                    while (op != 14)
+                    while (op != 12)
                     {
                         menu_coordinador_cursos();
                         scanf("%d", &op); printf("\n");
@@ -1010,8 +1010,9 @@ int main(int argc, char **argv)
                                 volver=0;
 
                                 break;
-                            
-                            case 4:
+                            }
+
+                        case 4:
                             system("clear");
                             printf("ID DEL CURSO A MODIFICAR: ");
                             scanf("%d", &curson.id);
@@ -1114,6 +1115,233 @@ int main(int argc, char **argv)
                             op=0;
                             volver=0;
 
+                            break;
+
+                        case 6:
+                            system("clear");
+                            printf("SE HA EJECUTADO BUSCAR CURSO\n");
+                            printf("INTRODUCE EL ID DEL CURSO A BUSCAR\n");
+                            int n;
+                            scanf("%d",&n);
+                            mostrar_curso(fichCursos,n);
+                            
+                            printf("\nPRESIONE '1' PARA VOLVER.\n");
+                            scanf("%d", &volver);
+
+                            while(volver != 1)
+                            {   
+                                system("clear");
+                                printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                scanf("%d", &volver);
+                            }
+                        
+                            system("clear");
+                            op=0;
+                            volver=0;
+                            break;    
+
+                        case 7:    
+                            system("clear");
+                            printf("\n----------------- USUARIOS EN LA BASE DE DATOS -----------------\n");
+                            printf("\n");
+                            printf("\n");
+                            printf("\n");
+
+                            visualizar_informacion_usuarios(fichUsuarios);
+                            printf("\nPRESIONE '1' PARA VOLVER.\n");
+                            scanf("%d", &volver);
+
+                            while(volver != 1)
+                            {
+                                system("clear");
+                                printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                scanf("%d", &volver);
+                            }
+                            
+                            system("clear");
+                            op=0;
+                            volver=0;
+
+                            break;
+
+                        case 8:
+                            system("clear");
+                            printf("INTRODUZCA EL CORREO DEL USUARIO A BUSCAR\n");
+                            printf("----> ");
+                            scanf("%s", usern.email);
+                            printf("\n");
+
+                            if (buscar_usuario(fichUsuarios, usern.email) != 1)
+                            {
+                                system("clear");
+                                printf("ERROR, NO SE ENCUENTRA EL USUARIO.\n");
+                                printf("\nPRESIONE '1' PARA VOLVER.\n");
+                                scanf("%d", &volver);
+
+                                while(volver != 1)
+                                {
+                                    system("clear");
+                                    printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                    scanf("%d", &volver);
+                                }
+                            
+                                system("clear");
+                                op=0;
+                                volver=0;
+
+                                break;
+                            }
+                            
+                            mostrar_usuario(fichUsuarios, usern.email);
+                            printf("\nPRESIONE '1' PARA VOLVER.\n");
+                            scanf("%d", &volver);
+
+                            while(volver != 1)
+                            {
+                                system("clear");
+                                printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                scanf("%d", &volver);
+                            }
+                        
+                            system("clear");
+                            op=0;
+                            volver=0;
+
+                            break;
+                        
+                        case 9:
+                            system("clear");
+                            
+
+                            printf("INTRODUZCA EL CODIGO DEL CURSO PARA VER SU LISTA DE ESPERA\n");
+                            scanf("%d", &curson.id);
+
+                            system("clear");
+                            printf("\n----------------- USUARIOS EN LA LISTA DE ESPERA -----------------\n");
+                            printf("\n");
+                            
+
+                            mostrar_waitlist(fichInscripciones, curson.id);
+
+                            printf("\n");
+                            printf("\n");
+                            printf("\nPRESIONE '1' PARA VOLVER.\n");
+                            scanf("%d", &volver);
+
+                            while(volver != 1)
+                            {
+                                system("clear");
+                                printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                scanf("%d", &volver);
+                            }
+                        
+                            system("clear");
+                            op=0;
+                            volver=0;
+
+                            break;
+                        
+                        case 10:
+                            system("clear");
+                            
+                            printf("INTRODUZCA EL CODIGO DEL CURSO EL CUAL QUIERE ELIMINAR EL USUARIO\n");
+                            scanf("%d", &curson.id);
+
+                            printf("\n\nINTRODUZCA EL CORREO DEL USUARIO A ELIMINAR\n");
+                            scanf("%s", usern.email);
+
+                            if (eliminar_usuario_del_curso(fichInscripciones, curson.id, usern.email) == 0)
+                            {
+                                printf("\n\nUSUSARIO %s ELIMINADO DEL CURSO CON CODIGO %d CON EXITO\n", usern.email, curson.id);
+                                printf("\nPRESIONE '1' PARA VOLVER.\n");
+                                scanf("%d", &volver);
+
+                                while(volver != 1)
+                                {
+                                    system("clear");
+                                    printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                    scanf("%d", &volver);
+                                }
+                            
+                                system("clear");
+                                op=0;
+                                volver=0;
+
+                                break;
+                            }
+                            else
+                            {
+                                printf("ERROR AL ELIMIAR USUARIO\n");
+                                printf("\nPRESIONE '1' PARA VOLVER.\n");
+                                scanf("%d", &volver);
+
+                                while(volver != 1)
+                                {
+                                    system("clear");
+                                    printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                    scanf("%d", &volver);
+                                }
+                            
+                                system("clear");
+                                op=0;
+                                volver=0;
+
+                                break;
+                            }
+
+                        case 11:
+                            system("clear");
+                            
+                            printf("INTRODUZCA EL CODIGO DEL CURSO EL CUAL QUIERE ELIMINAR EL USUARIO\n");
+                            scanf("%d", &curson.id);
+
+                            printf("\nINTRODUZCA EL CORREO DEL USUARIO A ELIMINAR\n");
+                            scanf("%s", usern.email);
+
+                            if (eliminar_usuario_de_waitlist(fichInscripciones, curson.id, usern.email) == 0)
+                            {
+                                system("clear");
+                                printf("\nUSUSARIO %s ELIMINADO DE LA LISTA DE ESPERA DEL CURSO CON CODIGO %d CON EXITO\n", usern.email, curson.id);
+                                printf("\nPRESIONE '1' PARA VOLVER.\n");
+                                scanf("%d", &volver);
+
+                                while(volver != 1)
+                                {
+                                    system("clear");
+                                    printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                    scanf("%d", &volver);
+                                }
+                            
+                                system("clear");
+                                op=0;
+                                volver=0;
+
+                                break;
+                            }
+                            else
+                            {
+                                system("clear");
+                                printf("ERROR AL ELIMIAR USUARIO\n");
+                                printf("\nPRESIONE '1' PARA VOLVER.\n");
+                                scanf("%d", &volver);
+
+                                while(volver != 1)
+                                {
+                                    system("clear");
+                                    sleep(1);
+                                    printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                    scanf("%d", &volver);
+                                }
+                            
+                                system("clear");
+                                op=0;
+                                volver=0;
+
+                                break;
+                            
+                            }
+
+                        default:
                             break;
                         }
                     }

@@ -6,7 +6,9 @@
 
 #ifndef FUNCIONES_H
 #define FUNCIONES_H
-
+//arrglar funcion eliminar curso
+//mensaje de error en buscar curso
+//quitar funcion buscar usuario
 struct user
 {
     char email[200];
