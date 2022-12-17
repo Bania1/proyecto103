@@ -12,25 +12,11 @@ struct recurso
     int proyectores;
 };
 
-int total_clas = 30;
-
-int total_cam = 50;
-
-int total_proy = 40;
-
-int cont_clas = 0;
-
-int cont_cam = 0;
-
-int cont_proy = 0;
-//id camaras aulas proyectores   - - -
-
-
-
-void asignar_recursos(char *nF,int cod);
-int buscar_recurso(char *nF,int id);
-void modificar_recursos(char *nF,int cod);
-void eliminar_recurso(char *nF,int cod);
-
+void asignar_recursos(char *nF,char *nF2,char *nF3,int cod);
+int buscar_recurso(char *nF,int cod);
+void modificar_recursos(char *nF1,char *nF2,int cod);
+void eliminar_recurso(char *nF1,char *nF2,int cod);
+void asignar_globales(char *nF);
+void comprobar_existencias(char *nF1,char *nF2);
 
 #endif

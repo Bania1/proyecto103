@@ -1,28 +1,28 @@
 is
-ingenieria del software
-1 90 30 30
-auaroroa noeq
-angel aute
-1 11 2023
-21 12 2024
+Ingenieria del software
+1 25 30 2
+Eduardo Gonzales
+Angel Fernandez
+1 1 2023
+23 3 2024
 bd
-base de datos
-2 40 30 1
-miguel angel
-gomez nieto
-1 12 2023
-5 4 2024
-biblio
-sala de trabajo
-3 0 20 3
-eseeba caraca
-angel boste
+Base de datos
+2 40 30 2
+Angel Main
+Gomez Nieto
+1 12 2022
+5 4 2023
+Ajedrez
+Curso de ajedrez basico
+3 0 20 0
+Javier Eusebio
+Alvaro Fernandez
 20 12 2023
-30 12 2024
-domino
-dominoes
-5 23 23 0
-elmismo
-elmiso
+31 12 2023
+Domino
+Reglamento del domino
+4 0 12 0
+Nicolas Gomez
+Paco Martinez
 23 12 2022
-23 3 2023
+24 12 2022

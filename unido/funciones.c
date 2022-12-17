@@ -3,6 +3,13 @@
 #include <string.h>
 #include "funciones.h"
 
+int cont_clas = 0;
+int cont_proy = 0;
+int cont_cam = 0;
+int max_clas = 15;
+int max_proy = 20;
+int max_cam = 20;
+
 int crear_curso(char *nF,int cod)
 {
     FILE *fich=fopen(nF,"a");
@@ -251,10 +258,6 @@ int modificar_curso(char *nF,int cod)
 
         if(c.id==cod)
         {
-            /*printf("introduce el nuevo nombre del curso con codigo %d\n",cod);
-            fgets(c.nombre,200,stdin);
-            c.nombre[strlen(c.nombre)-1]='\0';
-            fflush(stdin);*/
 
             printf("INTRODUCE LA NUEVA DESCRIPCION DEL CURSO %s con codigo %d\n",c.nombre,cod);
             fgets(c.descripcion,200,stdin);
@@ -339,58 +342,106 @@ int modificar_curso(char *nF,int cod)
     return 1;
 }
 
-int eliminar_curso(char *nF, int cod)
+int eliminar_curso(char *nF, char *nF2, int cod)
 {
-    FILE *fich=fopen(nF,"r");
-    if(fich==NULL)
+    FILE *fichCursos=fopen(nF,"r");
+    if(fichCursos==NULL)
     {
         printf("ERROR AL ABRIR FICHERO\n");
         exit(-1);
     }
-    FILE *fich2=fopen("auxf.txt","w");
-    if(fich2==NULL)
+    FILE *fichInscripcion=fopen(nF2,"r");
+    if(fichInscripcion==NULL)
     {
         printf("ERROR AL ABRIR FICHERO\n");
-        fclose(fich);
+        fclose(fichCursos);
         exit(-1);
     }
+
+    FILE *fich_aux1=fopen("aux1.txt", "w");
+    if(fich_aux1==NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(fichCursos);
+        fclose(fichInscripcion);
+        remove("aux1.txt");
+        exit(-1);
+    }
+
+    FILE *fich_aux2=fopen("aux2.txt", "w");
+    if(fich_aux2==NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(fichCursos);
+        fclose(fichInscripcion);
+        remove("aux1.txt");
+        remove("aux2.txt");
+        exit(-1);
+    }
+
+    char x[200];
+    fgets(x,200,stdin);
+    x[strlen(x)-1]='\0';
 
     struct curso c;
+    struct user aux;
 
-    while(fgets(c.nombre,200,fich))
+    char cadena[200];
+    int codigo,retorno=0;
+
+    while(fgets(c.nombre,200,fichCursos))
     {
         c.nombre[strlen(c.nombre)-1]='\0';
 
-        fgets(c.descripcion,200,fich);
+        fgets(c.descripcion,200,fichCursos);
         c.descripcion[strlen(c.descripcion)-1]='\0';
 
-        fscanf(fich,"%d %d %d %d\n",&c.id,&c.precio,&c.aforo,&c.inscritos);
+        fscanf(fichCursos,"%d %d %d %d\n",&c.id,&c.precio,&c.aforo,&c.inscritos);
 
-        fgets(c.ponente1,200,fich);
+        fgets(c.ponente1,200,fichCursos);
         c.ponente1[strlen(c.ponente1)-1]='\0';
-        fgets(c.ponente2,200,fich);
+        fgets(c.ponente2,200,fichCursos);
         c.ponente2[strlen(c.ponente2)-1]='\0';
 
-        fscanf(fich,"%d %d %d\n",&c.dia_inicio,&c.mes_inicio,&c.anio_inicio);
-        fscanf(fich,"%d %d %d\n",&c.dia_final,&c.mes_final,&c.anio_final);
+        fscanf(fichCursos,"%d %d %d\n",&c.dia_inicio,&c.mes_inicio,&c.anio_inicio);
+        fscanf(fichCursos,"%d %d %d\n",&c.dia_final,&c.mes_final,&c.anio_final);
 
         if(buscar_curso(nF,cod)==0)
         {
             //printf("Curso no existente\n");
-            return  0;
+            retorno=  0;
         }
 
         if(c.id!=cod)
         {
-            fprintf(fich2,"%s\n%s\n%d %d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.inscritos,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
+            fprintf(fich_aux1,"%s\n%s\n%d %d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.inscritos,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
         }   
     }
     
-    fclose(fich);
-    fclose(fich2);
+    while (fscanf(fichInscripcion, "%d %s %s\n", &codigo, aux.email, cadena) == 3)
+    {
+        if (cod != c.id)
+        {
+            fprintf(fich_aux2, "%d %s %s\n", codigo, aux.email, cadena);
+            //aux1=aux2;
+        }
+        else
+        {
+            retorno= 0; //curso no existente
+        }
+        
+    }
+    
+    fclose(fichCursos);
+    fclose(fichInscripcion);
+    fclose(fich_aux1);
+    fclose(fich_aux2);
     remove(nF);
-    rename("auxf.txt",nF);
-    return 1;
+    remove(nF2);
+    rename("aux1.txt",nF);
+    rename("aux2.txt", nF2);
+
+    return retorno;
 }
 
 int comprobar_fecha(char *nF,int cod)//0=no ha empezado el curso, 1=ha emezado el curso
@@ -518,7 +569,7 @@ void menu_admin()
     printf("14. BUSCAR USUARIO.\n");
     printf("15. ASIGNAR COORDINADOR.\n");
     printf("16. VER LISTA DE ESPERA DE UN CURSO.\n");
-    printf("17. ELIMINAR USUARIO DE UN CURSO.\n");//HE AÑADIDO ESTA Y LA DE ABAJO, HAY Q MODIFICAR EL SWITCH, AÑADIRLAS AL COORDINADOR Y PROBARLAS
+    printf("17. ELIMINAR USUARIO DE UN CURSO.\n");
     printf("18. ELIMINAR USUARIO DE UNA LISTA DE ESPERA.\n");
     printf("19. VOLVER.\n");
     printf("\n");
@@ -542,11 +593,11 @@ void menu_coordinador_cursos()
     printf("5.  ELIMINAR CURSO.\n");
     printf("6.  BUSCAR CURSO.\n");
     printf("7.  VISUALIZAR USUARIOS.\n");
-    printf("8.  BUSCAR USUARIO.\n");
-    printf("9.  VER LISTA DE ESPERA DE UN CURSO.\n");
-    printf("10. ELIMINAR USUARIO DE UN CURSO.\n");//HE AÑADIDO ESTA Y LA DE ABAJO, HAY Q MODIFICAR EL SWITCH, AÑADIRLAS AL COORDINADOR Y PROBARLAS
-    printf("11. ELIMINAR USUARIO DE UNA LISTA DE ESPERA.\n");
-    printf("12. VOLVER.\n");
+    //printf("8.  BUSCAR USUARIO.\n");
+    printf("8.  VER LISTA DE ESPERA DE UN CURSO.\n");
+    printf("9. ELIMINAR USUARIO DE UN CURSO.\n");
+    printf("10. ELIMINAR USUARIO DE UNA LISTA DE ESPERA.\n");
+    printf("11. VOLVER.\n");
     printf("\n");
     printf("\n");
     printf("\n");
@@ -566,7 +617,8 @@ void menu_coordinador_recursos()
     printf("3. ASIGNAR RECURSOS.\n");
     printf("4. MODIFICAR RECURSOS.\n");
     printf("5. ELIMINAR RECURSOS\n");    
-    printf("6. VOLVER.\n");
+    printf("6. COMPROBAR EXISTENCIAS\n");
+    printf("7. VOLVER.\n");
     printf("\n");
     printf("\n");
     printf("\n");
@@ -735,19 +787,11 @@ int inscribirse(char *nF1,char *nF2,int cod,char *usuario)
             if(comprobar_inscripcion(nF2,cod,usuario)==-1)
             {
                 //ya esta en la lista de espera
-                /*fclose(fichCursos);
-                fclose(fichAux);
-                fclose(fichIscripciones);
-                remove("aux.txt");*/
                 retorno=2;
             }
             else if(comprobar_inscripcion(nF2,cod,usuario)==1)
             {
                 //ya esta en el curso
-                /*fclose(fichCursos);
-                fclose(fichAux);
-                fclose(fichIscripciones);
-                remove("aux.txt");*/
                 retorno=3;
             }
             else if(comprobar_inscripcion(nF2,cod,usuario)==0)
@@ -1212,5 +1256,570 @@ int eliminar_usuario(char *nF1, char *nF2, char *email)
     rename("aux2.txt",nF2);
     
     return 1; //Con exito
+
+}
+
+void restar_inscripcion(char *nF,int cod)
+
+{
+    FILE *fich=fopen(nF,"r");
+    if(fich==NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        exit(-1);
+    }
+    FILE *fich2=fopen("auxf.txt","w");
+    if(fich2==NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(fich);
+        exit(-1);
+    }
+
+    struct curso c;
+    /*char x[200];
+    fgets(x,200,stdin);
+    x[strlen(x)-1]='\0';*/
+
+    while(fgets(c.nombre,200,fich))
+    {
+        c.nombre[strlen(c.nombre)-1]='\0';
+
+        fgets(c.descripcion,200,fich);
+        c.descripcion[strlen(c.descripcion)-1]='\0';
+
+        fscanf(fich,"%d %d %d %d\n",&c.id,&c.precio,&c.aforo,&c.inscritos);
+
+        fgets(c.ponente1,200,fich);
+        c.ponente1[strlen(c.ponente1)-1]='\0';
+        fgets(c.ponente2,200,fich);
+        c.ponente2[strlen(c.ponente2)-1]='\0';
+
+        fscanf(fich,"%d %d %d\n",&c.dia_inicio,&c.mes_inicio,&c.anio_inicio);
+        fscanf(fich,"%d %d %d\n",&c.dia_final,&c.mes_final,&c.anio_final);
+
+        if(c.id==cod)
+        {
+            c.inscritos--;
+        }   
+        fprintf(fich2,"%s\n%s\n%d %d %d %d\n%s\n%s\n%d %d %d\n%d %d %d\n",c.nombre,c.descripcion,c.id,c.precio,c.aforo,c.inscritos,c.ponente1,c.ponente2,c.dia_inicio,c.mes_inicio,c.anio_inicio,c.dia_final,c.mes_final,c.anio_final);
+    }
+    
+    fclose(fich);
+    fclose(fich2);
+    remove(nF);
+    rename("auxf.txt",nF);
+}
+
+void asignar_globales(char *nF)
+{
+    
+    FILE * fich = fopen(nF,"a");
+    if(fich == NULL)
+    {
+        printf("ERROR AL ABRIR EL FICHERO\n");
+        exit(-1);
+    }
+    fseek(fich,0,SEEK_END);
+
+    if(ftell(fich) == 0)
+    {
+        fprintf(fich,"%d %d %d %d %d %d\n",cont_clas,cont_cam,cont_proy,max_clas,max_cam,max_proy);   
+        fseek(fich,0,SEEK_SET);
+    }
+    else
+    {
+        fseek(fich,0,SEEK_SET);
+    }
+    fclose(fich);
+}
+
+void asignar_recursos(char *nF,char *nF2,char *nF3,int cod)
+{
+    FILE * fich = fopen(nF,"r");
+    if(fich == NULL)
+    {
+        printf("ERROR AL ABRIR EL FICHERO\n");
+        exit(-1);
+    }
+    
+    FILE *fich2=fopen(nF2,"a");
+    if(fich2==NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(fich);
+        exit(-1);
+    }
+    FILE *fich3=fopen(nF3,"r");
+    printf("LLEGA2");
+    if(fich3==NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(fich2);
+        fclose(fich);
+        exit(-1);
+    }
+    FILE *fich4=fopen("auxf.txt","w");
+    printf("LLEGA3");
+    if(fich4==NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(fich2);
+        fclose(fich);
+        fclose(fich3);
+        remove("auxf.txt");
+        exit(-1);
+    }
+
+    struct curso c;
+    struct recurso r;
+    while(fgets(c.nombre,200,fich))
+    {
+        c.nombre[strlen(c.nombre)-1]='\0';
+
+        fgets(c.descripcion,200,fich);
+        c.descripcion[strlen(c.descripcion)-1]='\0';
+
+        fscanf(fich,"%d %d %d %d\n",&c.id,&c.precio,&c.aforo,&c.inscritos);
+
+        fgets(c.ponente1,200,fich);
+        c.ponente1[strlen(c.ponente1)-1]='\0';
+        fgets(c.ponente2,200,fich);
+        c.ponente2[strlen(c.ponente2)-1]='\0';
+
+        fscanf(fich,"%d %d %d\n",&c.dia_inicio,&c.mes_inicio,&c.anio_inicio);
+        fscanf(fich,"%d %d %d\n",&c.dia_final,&c.mes_final,&c.anio_final);
+
+        if(c.id==cod)
+        {
+            int asignado = buscar_recurso(nF2,c.id);
+
+            if(asignado == 1)
+            {
+                printf("ERROR-No es posible añadir recursos a un curso al que ya han sido asignados-> USE 'MODIFICAR RECURSOS'\n");
+                exit(-1);
+            }
+            else
+            {
+                while(fscanf(fich3,"%d %d %d %d %d %d\n",&cont_clas,&cont_cam,&cont_proy,&max_clas,&max_cam,&max_proy) == 6)
+                {
+                    if(cont_clas < max_clas)
+                    {
+                        printf("INTRIDUCE EL NUMERO DE AULAS.QUEDAN DISPONIBLES: %d\n",(max_clas-cont_clas));
+                        scanf("%d",&r.aulas);
+
+                        while(r.aulas > (max_clas-cont_clas))
+                        {
+                            printf("ERROR->LA CANTIDAD DE AULAS SOLICITADA SUPERA LA CANTIDAD DE AULAS DISPONIBLES-VUELVA A INTRODUCIR UNA CANTIDAD:\n");
+                            scanf("%d",&r.aulas);
+                        }
+                        while(r.aulas < 0 || r.aulas > (max_clas-cont_clas))
+                        {
+                            printf("ERROR-NO PUEDE SER SOLICITADA UNA CANTIDAD DE AULAS NEGATIVA-VUELVA A INTRODUCIR UNA CANTIDAD\n");
+                            scanf("%d",&r.aulas);
+                            if(r.aulas > (max_clas-cont_clas))
+                            {
+                                printf("ERROR-NO PUEDE AÑADIR\n");
+                            }
+                        }
+
+                        cont_clas = cont_clas + r.aulas;
+                    }
+                    if(cont_cam < max_cam)
+                    {
+                        printf("INTRIDUCE EL NUMERO DE CAMARAS.QUEDAN DISPONIBLES: %d\n",(max_cam-cont_cam));
+                        scanf("%d",&r.camaras);
+
+                        while(r.camaras > (max_cam-cont_cam))
+                        {
+                            printf("ERROR->LA CANTIDAD DE CAMARAS SOLICITADA SUPERA LA CANTIDAD DE CAMARAS DISPONIBLES-VUELVA A INTRODUCIR UNA CANTIDAD:\n");
+                            scanf("%d",&r.camaras);
+                        }
+                        while(r.camaras < 0 || r.camaras > (max_cam-cont_cam))
+                        {
+                            printf("ERROR-NO PUEDE SER SOLICITADA UNA CANTIDAD DE CAMARAS NEGATIVA-VUELVA A INTRODUCIR UNA CANTIDAD\n");
+                            scanf("%d",&r.camaras);
+                            if(r.camaras > (max_cam-cont_cam))
+                            {
+                                printf("ERROR\n");
+                            }
+                        }
+
+                        cont_cam = cont_cam + r.camaras;
+                    }
+                    if(cont_proy < max_proy)
+                    {
+                        printf("INTRIDUCE EL NUMERO DE PROYECTORES.QUEDAN DISPONIBLES: %d\n",(max_proy-cont_proy));
+                        scanf("%d",&r.proyectores);
+
+                        while(r.proyectores > (max_proy-cont_proy))
+                        {
+                            printf("ERROR->LA CANTIDAD DE PROYECTORES SOLICITADA SUPERA LA CANTIDAD DE PROYECTORES DISPONIBLES-VUELVA A INTRODUCIR UNA CANTIDAD:\n");
+                            scanf("%d",&r.proyectores);
+                        }
+                        while(r.proyectores < 0 || r.proyectores > (max_proy-cont_proy))
+                        {
+                            printf("ERROR-NO PUEDE SER SOLICITADA UNA CANTIDAD DE PROYECTORES NEGATIVA-VUELVA A INTRODUCIR UNA CANTIDAD\n");
+                            scanf("%d",&r.proyectores);
+                            if(r.proyectores > (max_proy-cont_proy))
+                            {
+                                printf("ERROR");
+                            }
+                        }
+
+                        cont_proy = cont_proy + r.proyectores;
+                    }
+                    else
+                    {
+                        printf("ERROR->NO QUEDAN RECURSOS DISPONIBLES\n");
+                        exit(-1);
+                    }
+                }
+              
+                  
+                         
+                         
+                              
+
+                   
+            }
+                
+            fprintf(fich2,"%d %d %d %d\n",c.id,r.aulas,r.camaras,r.proyectores);
+            fprintf(fich4,"%d %d %d %d %d %d\n",cont_clas,cont_cam,cont_proy,max_clas,max_cam,max_proy);    
+        }
+    }
+    fclose(fich);
+    fclose(fich2);
+    fclose(fich3);
+    fclose(fich4);
+    remove(nF3);
+    rename("auxf.txt",nF3);
+}
+
+int buscar_recurso(char *nF,int cod)
+{
+    FILE *fich=fopen(nF,"r");
+    if(fich==NULL)
+    {
+        printf("ERROR AL ABRIR EL FICHERO\n");
+        exit(-1);
+    }
+    struct curso c;
+    struct recurso r;
+    fseek(fich,0,SEEK_END);
+
+    if(ftell(fich) == 0)
+    {
+
+    }
+    else
+    {
+        fseek(fich,0,SEEK_SET);
+
+        while(fscanf(fich,"%d %d %d %d\n",&c.id,&r.aulas,&r.camaras,&r.proyectores) == 4)
+        {
+            if(c.id == cod)
+            {
+                return 1;
+                fclose(fich);
+            }
+
+        }    
+    }
+
+    fclose(fich);
+    return 0;
+}
+
+void modificar_recursos(char *nF1,char *nF2,int cod)
+{
+    FILE * fich = fopen(nF1,"r");
+    if(fich == NULL)
+    {
+        printf("ERROR AL ABRIR EL FICHERO\n");
+        exit(-1);
+    }
+    FILE *fich2=fopen("aux.txt","w");
+    if(fich2==NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(fich);
+        exit(-1);
+    }
+    FILE *fich3=fopen(nF2,"r");
+    if(fich3==NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(fich3);
+        exit(-1);
+    }
+    FILE *fich4=fopen("aux2.txt","w");
+    if(fich4==NULL)
+    {
+        printf("ERROR AL ABRIR FICHERO\n");
+        fclose(fich4);
+        exit(-1);
+    }
+
+    struct curso c;
+    struct recurso r;
+
+        while(fscanf(fich,"%d %d %d %d\n",&c.id,&r.aulas,&r.camaras,&r.proyectores) == 4)
+        {
+            printf("LLEGO");
+            int aux1 = r.aulas;
+            int aux2 = r.camaras;
+            int aux3 = r.proyectores;
+            printf("%d",c.id);
+
+            
+            
+            if(c.id == cod)
+            {
+                printf("LLEGO2");
+                while(fscanf(fich3,"%d %d %d %d %d %d\n",&cont_clas,&cont_cam,&cont_proy,&max_clas,&max_cam,&max_proy) == 6)
+                {
+                    printf("LLEGO3");
+                    printf("%d",cont_clas);
+                    printf("%d",cont_cam);
+                    printf("%d",cont_proy);
+                    char tipo[50];
+                    printf("Introduzca el tipo de recurso a reasignar\n");
+                    printf("'Aula', 'Camara o 'Proyector'\n");
+                    scanf("%s",tipo);
+                    while(strcmp(tipo,"Aula") != 0 && strcmp(tipo,"Camara") != 0 && strcmp(tipo,"Proyector") != 0)
+                    {
+                        printf("ERROR-Debes introducir 'Aula','Camara' o 'Proyector'\n");
+                        scanf("%s",tipo);
+
+                    }
+                    
+
+                    if(strcmp(tipo,"Aula") == 0 && cont_clas < max_clas)
+                    {
+                        printf("%d",cont_clas);
+                        printf("Introduce el numero de aulas que desea asignar->QUEDAN LIBRES:%d\n",(max_clas-cont_clas));
+                        scanf("%d",&r.aulas);
+                        
+                        while(r.aulas > (max_clas-cont_clas))
+                        {
+                            printf("ERROR->LA CANTIDAD DE AULAS SOLICITADA SUPERA LA CANTIDAD DE AULAS DISPONIBLES-VUELVA A INTRODUCIR UNA CANTIDAD:\n");
+                            scanf("%d",&r.aulas);
+                        }
+                        while(r.aulas < 0 || r.aulas > (max_clas-cont_clas))
+                        {
+                            printf("ERROR-NO PUEDE SER SOLICITADA UNA CANTIDAD DE AULAS NEGATIVA-VUELVA A INTRODUCIR UNA CANTIDAD\n");
+                            scanf("%d",&r.aulas);
+                            if(r.aulas > (max_clas-cont_clas))
+                            {
+                                printf("ERROR-NO PUEDE AÑADIR\n");
+                            }
+                        }
+
+                        cont_clas = cont_clas + (r.aulas-aux1);
+
+                    }
+                    else if(strcmp(tipo,"Camara") == 0 && cont_cam < max_cam)
+                    {
+                        printf("Introduce el numero de aulas que desea asignar->QUEDAN LIBRES:%d\n",(max_cam-cont_cam));
+                        scanf("%d",&r.camaras);
+                        
+                        while(r.camaras > (max_cam-cont_cam))
+                        {
+                            printf("ERROR->LA CANTIDAD DE AULAS SOLICITADA SUPERA LA CANTIDAD DE AULAS DISPONIBLES-VUELVA A INTRODUCIR UNA CANTIDAD:\n");
+                            scanf("%d",&r.camaras);
+                        }
+                        while(r.camaras < 0 || r.camaras > (max_cam-cont_cam))
+                        {
+                            printf("ERROR-NO PUEDE SER SOLICITADA UNA CANTIDAD DE AULAS NEGATIVA-VUELVA A INTRODUCIR UNA CANTIDAD\n");
+                            scanf("%d",&r.camaras);
+                            if(r.camaras > (max_clas-cont_cam))
+                            {
+                                printf("ERROR-NO PUEDE AÑADIR\n");
+                            }
+                        cont_cam = cont_cam + (r.camaras-aux2);
+                        }
+
+
+                    }
+                    else if(strcmp(tipo,"Proyector") == 0 && cont_proy < max_proy)
+                    {
+                        printf("Introduce el numero de aulas que desea asignar->QUEDAN LIBRES:%d\n",(max_proy-cont_proy));
+                        scanf("%d",&r.proyectores);
+                        
+                        while(r.proyectores > (max_proy-cont_proy))
+                        {
+                            printf("ERROR->LA CANTIDAD DE AULAS SOLICITADA SUPERA LA CANTIDAD DE AULAS DISPONIBLES-VUELVA A INTRODUCIR UNA CANTIDAD:\n");
+                            scanf("%d",&r.proyectores);
+                        }
+                        while(r.proyectores < 0 || r.proyectores > (max_proy-cont_proy))
+                        {
+                            printf("ERROR-NO PUEDE SER SOLICITADA UNA CANTIDAD DE AULAS NEGATIVA-VUELVA A INTRODUCIR UNA CANTIDAD\n");
+                            scanf("%d",&r.proyectores);
+                            if(r.proyectores > (max_proy-cont_proy))
+                            {
+                                printf("ERROR-NO PUEDE AÑADIR\n");
+                            }
+                        }
+
+                        cont_proy = cont_proy + (r.proyectores-aux3);
+
+                    }
+                    else
+                    {
+                        printf("ERROR->NO QUEDAN RECURSOS DISPONIBLES\n");
+                        exit(-1);
+                    }
+                    
+
+                    fprintf(fich4,"%d %d %d %d %d %d\n",cont_clas,cont_cam,cont_proy,max_clas,max_cam,max_proy);
+
+                    
+                }
+
+
+            }
+            
+            
+            fprintf(fich2,"%d %d %d %d\n",c.id,r.aulas,r.camaras,r.proyectores);
+            
+           
+        }                 
+
+    
+    fclose(fich);
+    fclose(fich2);
+    fclose(fich3);
+    fclose(fich4);
+    remove(nF1);
+    remove(nF2);
+    rename("aux.txt",nF1);
+    rename("aux2.txt",nF2);
+}
+
+void eliminar_recurso(char *nF1,char *nF2,int cod)
+{
+    FILE * fich = fopen(nF1,"r");
+    if(fich == NULL)
+    {
+        printf("ERROR AL ABRIR EL FICHERO\n");
+        exit(-1);
+    }
+
+    FILE * fich2 = fopen("aux.txt","w");
+    if(fich2 == NULL)
+    {
+        printf("ERROR AL ABRIR EL FICHERO\n");
+        exit(-1);
+    }
+
+    FILE * fich3 = fopen(nF2,"r");
+    if(fich3 == NULL)
+    {
+        printf("ERROR AL ABRIR EL FICHERO\n");
+        exit(-1);
+    }
+
+    FILE * fich4 = fopen("aux2.txt","w");
+    if(fich4 == NULL)
+    {
+        printf("ERROR AL ABRIR EL FICHERO\n");
+        exit(-1);
+    }    
+
+
+    struct curso c;
+    struct recurso r;
+
+
+    while(fscanf(fich,"%d %d %d %d\n",&c.id,&r.aulas,&r.camaras,&r.proyectores) == 4)
+    {
+        if(c.id == cod)
+        {
+            while(fscanf(fich3,"%d %d %d %d %d %d\n",&cont_clas,&cont_cam,&cont_proy,&max_clas,&max_cam,&max_proy) == 6)
+            {
+                char tipo[50];
+                printf("Introduzca el tipo de recurso a eliminar\n");
+                printf("'Aula', 'Camara o 'Proyector'\n");
+                scanf("%s",tipo);
+                while(strcmp(tipo,"Aula") != 0 && strcmp(tipo,"Camara") != 0 && strcmp(tipo,"Proyector") != 0)
+                {
+                    printf("ERROR-Debes introducir 'Aula','Camara' o 'Proyector'\n");
+                    scanf("%s",tipo);
+
+                }
+
+                if(strcmp(tipo,"Aula") == 0)
+                {
+                    cont_clas = cont_clas - r.aulas;
+                    r.aulas = 0;
+                }
+                else if(strcmp(tipo,"Camara") == 0)
+                {
+                    cont_cam = cont_cam - r.camaras;
+                    r.camaras = 0;
+                }
+                else if(strcmp(tipo,"Proyector") == 0)
+                {
+                    cont_proy = cont_proy - r.proyectores;
+                    r.proyectores = 0;
+                }
+
+                fprintf(fich4,"%d %d %d %d %d %d\n",cont_clas,cont_cam,cont_proy,max_clas,max_cam,max_proy);
+
+                    
+            }
+        }
+
+        fprintf(fich2,"%d %d %d %d\n",c.id,r.aulas,r.camaras,r.proyectores);
+
+    }
+
+    fclose(fich);
+    fclose(fich2);
+    fclose(fich3);
+    fclose(fich4);
+    remove(nF1);
+    remove(nF2);
+    rename("aux.txt",nF1);
+    rename("aux2.txt",nF2);
+}
+
+void comprobar_existencias(char *nF1,char *nF2)
+{
+    FILE * fich = fopen(nF1,"r");
+    if(fich == NULL)
+    {
+        printf("ERROR AL ABRIR EL FICHERO\n");
+        exit(-1);
+    }
+
+    FILE * fich2 = fopen(nF2,"r");
+    if(fich2 == NULL)
+    {
+        printf("ERROR AL ABRIR EL FICHERO\n");
+        fclose(fich);
+        exit(-1);
+    }
+
+    struct curso c;
+    struct recurso r;
+
+    while(fscanf(fich,"%d %d %d %d\n",&c.id,&r.aulas,&r.camaras,&r.proyectores) == 4)
+    {
+        while(fscanf(fich2,"%d %d %d %d %d %d\n",&cont_clas,&cont_cam,&cont_proy,&max_clas,&max_cam,&max_proy) == 6)
+        {
+            printf("AULAS DISPONIBLES: %d AULAS EN USO: %d\n",(max_clas-cont_clas),cont_clas);
+            printf("\n");
+            printf("CAMARAS DISPONIBLES: %d CAMARAS EN USO: %d\n",(max_cam-cont_cam),cont_cam);
+            printf("\n");
+            printf("PROYECTORES DISPONIBLES: %d PROYECTORES EN USO: %d\n",(max_proy-cont_proy),cont_proy);
+
+        }
+       
+    }
+
+    fclose(fich);
+    fclose(fich2);
 
 }

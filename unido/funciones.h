@@ -3,11 +3,10 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 #ifndef FUNCIONES_H
 #define FUNCIONES_H
-//arrglar funcion eliminar curso
-//mensaje de error en buscar curso
 //quitar funcion buscar usuario
 struct user
 {
@@ -24,6 +23,13 @@ struct curso
     char ponente2[200];
     int dia_inicio,dia_final,mes_inicio,mes_final,anio_inicio,anio_final;
     int inscritos;
+};
+
+struct recurso
+{    
+    int aulas;
+    int camaras;
+    int proyectores;
 };
 
 //MENUS
@@ -62,10 +68,21 @@ int modificar_curso(char *nF,int cod);
 void mostrar_curso(char *nF,int cod);
 void mostrar_todos_cursos(char *nF);
 int buscar_curso(char *nF,int cod);
-int eliminar_curso(char *nF, int cod);
+int eliminar_curso(char *nF,char *nF2, int cod);
 int comprobar_fecha(char *nF,int cod);
 int inscribirse(char *nF1,char *nF2,int cod,char *usuario);
 void ver_mis_cursos(char *nF1,char*nF2,char *usuario);
 int comprobar_inscripcion(char *nF,int cod,char *usuario);
 void mostrar_waitlist(char *nF,int cod);
+void restar_inscripcion(char *nF,int cod);
+
+//FUNCIONES RECURSOS
+
+void asignar_recursos(char *nF,char *nF2,char *nF3,int cod);
+int buscar_recurso(char *nF,int cod);
+void modificar_recursos(char *nF1,char *nF2,int cod);
+void eliminar_recurso(char *nF1,char *nF2,int cod);
+void asignar_globales(char *nF);
+void comprobar_existencias(char *nF1,char *nF2);
+
 #endif
