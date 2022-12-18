@@ -1,0 +1,28 @@
+is
+Ingenieria del software
+1 25 30 8
+Eduardo Gonzales
+Angel Fernandez
+1 1 2023
+23 3 2024
+bd
+Base de datos
+2 40 30 2
+Angel Main
+Gomez Nieto
+1 12 2022
+5 4 2023
+Ajedrez
+Curso de ajedrez basico
+3 0 20 0
+Javier Eusebio
+Alvaro Fernandez
+20 12 2023
+31 12 2023
+Domino
+Reglamento del domino
+4 0 12 0
+Nicolas Gomez
+Paco Martinez
+23 12 2022
+24 12 2022
