@@ -613,12 +613,12 @@ void menu_coordinador_recursos()
     printf("\n");
     printf("\n");
     printf("1. VER CURSOS.\n");
-    printf("2. INSCRIBIRSE A UN CURSO.\n");
-    printf("3. ASIGNAR RECURSOS.\n");
-    printf("4. MODIFICAR RECURSOS.\n");
-    printf("5. ELIMINAR RECURSOS\n");    
-    printf("6. COMPROBAR EXISTENCIAS\n");
-    printf("7. VOLVER.\n");
+    //printf("2. INSCRIBIRSE A UN CURSO.\n");
+    printf("2. ASIGNAR RECURSOS.\n");
+    printf("3. MODIFICAR RECURSOS.\n");
+    printf("4. ELIMINAR RECURSOS\n");    
+    printf("5. COMPROBAR EXISTENCIAS\n");
+    printf("6. VOLVER.\n");
     printf("\n");
     printf("\n");
     printf("\n");
@@ -1351,7 +1351,7 @@ void asignar_recursos(char *nF,char *nF2,char *nF3,int cod)
         exit(-1);
     }
     FILE *fich3=fopen(nF3,"r");
-    printf("LLEGA2");
+    //printf("LLEGA2");
     if(fich3==NULL)
     {
         printf("ERROR AL ABRIR FICHERO\n");
@@ -1360,7 +1360,7 @@ void asignar_recursos(char *nF,char *nF2,char *nF3,int cod)
         exit(-1);
     }
     FILE *fich4=fopen("auxf.txt","w");
-    printf("LLEGA3");
+    //printf("LLEGA3");
     if(fich4==NULL)
     {
         printf("ERROR AL ABRIR FICHERO\n");
@@ -1396,7 +1396,7 @@ void asignar_recursos(char *nF,char *nF2,char *nF3,int cod)
 
             if(asignado == 1)
             {
-                printf("ERROR-No es posible añadir recursos a un curso al que ya han sido asignados-> USE 'MODIFICAR RECURSOS'\n");
+                printf("ERROR, NO ES POSIBLE AÑADIR RECURSOS A UN CURSO AL QUE YA HAN SIDO ASIGNADOS.\n USE 'MODIFICAR RECURSOS'\n");
                 exit(-1);
             }
             else
@@ -1405,21 +1405,21 @@ void asignar_recursos(char *nF,char *nF2,char *nF3,int cod)
                 {
                     if(cont_clas < max_clas)
                     {
-                        printf("INTRIDUCE EL NUMERO DE AULAS.QUEDAN DISPONIBLES: %d\n",(max_clas-cont_clas));
+                        printf("INTRODUCE EL NUMERO DE AULAS.\nQUEDAN DISPONIBLES: %d\n",(max_clas-cont_clas));
                         scanf("%d",&r.aulas);
 
                         while(r.aulas > (max_clas-cont_clas))
                         {
-                            printf("ERROR->LA CANTIDAD DE AULAS SOLICITADA SUPERA LA CANTIDAD DE AULAS DISPONIBLES-VUELVA A INTRODUCIR UNA CANTIDAD:\n");
+                            printf("ERROR, LA CANTIDAD DE AULAS SOLICITADA SUPERA LA CANTIDAD DE AULAS DISPONIBLES. VUELVA A INTRODUCIR UNA CANTIDAD:\n");
                             scanf("%d",&r.aulas);
                         }
                         while(r.aulas < 0 || r.aulas > (max_clas-cont_clas))
                         {
-                            printf("ERROR-NO PUEDE SER SOLICITADA UNA CANTIDAD DE AULAS NEGATIVA-VUELVA A INTRODUCIR UNA CANTIDAD\n");
+                            printf("ERROR, NO PUEDE SER SOLICITADA UNA CANTIDAD DE AULAS NEGATIVA. VUELVA A INTRODUCIR UNA CANTIDAD\n");
                             scanf("%d",&r.aulas);
                             if(r.aulas > (max_clas-cont_clas))
                             {
-                                printf("ERROR-NO PUEDE AÑADIR\n");
+                                printf("ERROR, NO PUEDE AÑADIR\n");
                             }
                         }
 
@@ -1427,17 +1427,17 @@ void asignar_recursos(char *nF,char *nF2,char *nF3,int cod)
                     }
                     if(cont_cam < max_cam)
                     {
-                        printf("INTRIDUCE EL NUMERO DE CAMARAS.QUEDAN DISPONIBLES: %d\n",(max_cam-cont_cam));
+                        printf("INTRODUCE EL NUMERO DE CAMARAS.\nQUEDAN DISPONIBLES: %d\n",(max_cam-cont_cam));
                         scanf("%d",&r.camaras);
 
                         while(r.camaras > (max_cam-cont_cam))
                         {
-                            printf("ERROR->LA CANTIDAD DE CAMARAS SOLICITADA SUPERA LA CANTIDAD DE CAMARAS DISPONIBLES-VUELVA A INTRODUCIR UNA CANTIDAD:\n");
+                            printf("ERROR, LA CANTIDAD DE CAMARAS SOLICITADA SUPERA LA CANTIDAD DE CAMARAS DISPONIBLES. VUELVA A INTRODUCIR UNA CANTIDAD:\n");
                             scanf("%d",&r.camaras);
                         }
                         while(r.camaras < 0 || r.camaras > (max_cam-cont_cam))
                         {
-                            printf("ERROR-NO PUEDE SER SOLICITADA UNA CANTIDAD DE CAMARAS NEGATIVA-VUELVA A INTRODUCIR UNA CANTIDAD\n");
+                            printf("ERROR, NO PUEDE SER SOLICITADA UNA CANTIDAD DE CAMARAS NEGATIVA. VUELVA A INTRODUCIR UNA CANTIDAD\n");
                             scanf("%d",&r.camaras);
                             if(r.camaras > (max_cam-cont_cam))
                             {
@@ -1449,17 +1449,17 @@ void asignar_recursos(char *nF,char *nF2,char *nF3,int cod)
                     }
                     if(cont_proy < max_proy)
                     {
-                        printf("INTRIDUCE EL NUMERO DE PROYECTORES.QUEDAN DISPONIBLES: %d\n",(max_proy-cont_proy));
+                        printf("INTRODUCE EL NUMERO DE PROYECTORES.\nQUEDAN DISPONIBLES: %d\n",(max_proy-cont_proy));
                         scanf("%d",&r.proyectores);
 
                         while(r.proyectores > (max_proy-cont_proy))
                         {
-                            printf("ERROR->LA CANTIDAD DE PROYECTORES SOLICITADA SUPERA LA CANTIDAD DE PROYECTORES DISPONIBLES-VUELVA A INTRODUCIR UNA CANTIDAD:\n");
+                            printf("ERROR, LA CANTIDAD DE PROYECTORES SOLICITADA SUPERA LA CANTIDAD DE PROYECTORES DISPONIBLES. VUELVA A INTRODUCIR UNA CANTIDAD:\n");
                             scanf("%d",&r.proyectores);
                         }
                         while(r.proyectores < 0 || r.proyectores > (max_proy-cont_proy))
                         {
-                            printf("ERROR-NO PUEDE SER SOLICITADA UNA CANTIDAD DE PROYECTORES NEGATIVA-VUELVA A INTRODUCIR UNA CANTIDAD\n");
+                            printf("ERROR, NO PUEDE SER SOLICITADA UNA CANTIDAD DE PROYECTORES NEGATIVA. VUELVA A INTRODUCIR UNA CANTIDAD\n");
                             scanf("%d",&r.proyectores);
                             if(r.proyectores > (max_proy-cont_proy))
                             {
@@ -1471,16 +1471,10 @@ void asignar_recursos(char *nF,char *nF2,char *nF3,int cod)
                     }
                     else
                     {
-                        printf("ERROR->NO QUEDAN RECURSOS DISPONIBLES\n");
+                        printf("ERROR, NO QUEDAN RECURSOS DISPONIBLES\n");
                         exit(-1);
                     }
                 }
-              
-                  
-                         
-                         
-                              
-
                    
             }
                 
@@ -1566,30 +1560,30 @@ void modificar_recursos(char *nF1,char *nF2,int cod)
 
         while(fscanf(fich,"%d %d %d %d\n",&c.id,&r.aulas,&r.camaras,&r.proyectores) == 4)
         {
-            printf("LLEGO");
+            //printf("LLEGO");
             int aux1 = r.aulas;
             int aux2 = r.camaras;
             int aux3 = r.proyectores;
-            printf("%d",c.id);
+            //printf("%d",c.id);
 
             
             
             if(c.id == cod)
             {
-                printf("LLEGO2");
+                //printf("LLEGO2");
                 while(fscanf(fich3,"%d %d %d %d %d %d\n",&cont_clas,&cont_cam,&cont_proy,&max_clas,&max_cam,&max_proy) == 6)
                 {
-                    printf("LLEGO3");
-                    printf("%d",cont_clas);
+                    //printf("LLEGO3");
+                    /*printf("%d",cont_clas);
                     printf("%d",cont_cam);
-                    printf("%d",cont_proy);
+                    printf("%d",cont_proy);*/
                     char tipo[50];
-                    printf("Introduzca el tipo de recurso a reasignar\n");
-                    printf("'Aula', 'Camara o 'Proyector'\n");
+                    printf("INTRODUZCA EL TIPO DE RECURSO A REASIGNAR\n");
+                    printf("'Aula', 'Camara O 'Proyector'\n");
                     scanf("%s",tipo);
                     while(strcmp(tipo,"Aula") != 0 && strcmp(tipo,"Camara") != 0 && strcmp(tipo,"Proyector") != 0)
                     {
-                        printf("ERROR-Debes introducir 'Aula','Camara' o 'Proyector'\n");
+                        printf("ERROR, DEBES INTRODUCIR 'Aula','Camara' O 'Proyector'\n");
                         scanf("%s",tipo);
 
                     }
@@ -1597,22 +1591,22 @@ void modificar_recursos(char *nF1,char *nF2,int cod)
 
                     if(strcmp(tipo,"Aula") == 0 && cont_clas < max_clas)
                     {
-                        printf("%d",cont_clas);
-                        printf("Introduce el numero de aulas que desea asignar->QUEDAN LIBRES:%d\n",(max_clas-cont_clas));
+                        //printf("%d",cont_clas);
+                        printf("INTRODUCE EL NUMERO DE AULAS QUE DESEA ASIGNAR ----> QUEDAN LIBRES:%d\n",(max_clas-cont_clas));
                         scanf("%d",&r.aulas);
                         
                         while(r.aulas > (max_clas-cont_clas))
                         {
-                            printf("ERROR->LA CANTIDAD DE AULAS SOLICITADA SUPERA LA CANTIDAD DE AULAS DISPONIBLES-VUELVA A INTRODUCIR UNA CANTIDAD:\n");
+                            printf("ERROR, LA CANTIDAD DE AULAS SOLICITADA SUPERA LA CANTIDAD DE AULAS DISPONIBLES. VUELVA A INTRODUCIR UNA CANTIDAD:\n");
                             scanf("%d",&r.aulas);
                         }
                         while(r.aulas < 0 || r.aulas > (max_clas-cont_clas))
                         {
-                            printf("ERROR-NO PUEDE SER SOLICITADA UNA CANTIDAD DE AULAS NEGATIVA-VUELVA A INTRODUCIR UNA CANTIDAD\n");
+                            printf("ERROR, NO PUEDE SER SOLICITADA UNA CANTIDAD DE AULAS NEGATIVA. VUELVA A INTRODUCIR UNA CANTIDAD\n");
                             scanf("%d",&r.aulas);
                             if(r.aulas > (max_clas-cont_clas))
                             {
-                                printf("ERROR-NO PUEDE AÑADIR\n");
+                                printf("ERROR, NO PUEDE AÑADIR\n");
                             }
                         }
 
@@ -1621,21 +1615,21 @@ void modificar_recursos(char *nF1,char *nF2,int cod)
                     }
                     else if(strcmp(tipo,"Camara") == 0 && cont_cam < max_cam)
                     {
-                        printf("Introduce el numero de aulas que desea asignar->QUEDAN LIBRES:%d\n",(max_cam-cont_cam));
+                        printf("INTRODUCE EL NUMERO DE CAMARAS QUE DESEA ASIGNAR ----> QUEDAN LIBRES:%d\n",(max_cam-cont_cam));
                         scanf("%d",&r.camaras);
                         
                         while(r.camaras > (max_cam-cont_cam))
                         {
-                            printf("ERROR->LA CANTIDAD DE AULAS SOLICITADA SUPERA LA CANTIDAD DE AULAS DISPONIBLES-VUELVA A INTRODUCIR UNA CANTIDAD:\n");
+                            printf("ERROR, LA CANTIDAD DE CAMARAS SOLICITADA SUPERA LA CANTIDAD DE CAMARAS DISPONIBLES. VUELVA A INTRODUCIR UNA CANTIDAD:\n");
                             scanf("%d",&r.camaras);
                         }
                         while(r.camaras < 0 || r.camaras > (max_cam-cont_cam))
                         {
-                            printf("ERROR-NO PUEDE SER SOLICITADA UNA CANTIDAD DE AULAS NEGATIVA-VUELVA A INTRODUCIR UNA CANTIDAD\n");
+                            printf("ERROR, NO PUEDE SER SOLICITADA UNA CANTIDAD DE CAMARAS NEGATIVA. VUELVA A INTRODUCIR UNA CANTIDAD\n");
                             scanf("%d",&r.camaras);
                             if(r.camaras > (max_clas-cont_cam))
                             {
-                                printf("ERROR-NO PUEDE AÑADIR\n");
+                                printf("ERROR, NO SE PUEDE AÑADIR\n");
                             }
                         cont_cam = cont_cam + (r.camaras-aux2);
                         }
@@ -1644,21 +1638,21 @@ void modificar_recursos(char *nF1,char *nF2,int cod)
                     }
                     else if(strcmp(tipo,"Proyector") == 0 && cont_proy < max_proy)
                     {
-                        printf("Introduce el numero de aulas que desea asignar->QUEDAN LIBRES:%d\n",(max_proy-cont_proy));
+                        printf("INTRODUCE EL NUMERO DE PROYECTORES QUE DESEA ASIGNAR ----> QUEDAN LIBRES:%d\n",(max_proy-cont_proy));
                         scanf("%d",&r.proyectores);
                         
                         while(r.proyectores > (max_proy-cont_proy))
                         {
-                            printf("ERROR->LA CANTIDAD DE AULAS SOLICITADA SUPERA LA CANTIDAD DE AULAS DISPONIBLES-VUELVA A INTRODUCIR UNA CANTIDAD:\n");
+                            printf("ERROR, LA CANTIDAD DE PROYECTORES SOLICITADA SUPERA LA CANTIDAD DE PROYECTORES DISPONIBLES. VUELVA A INTRODUCIR UNA CANTIDAD:\n");
                             scanf("%d",&r.proyectores);
                         }
                         while(r.proyectores < 0 || r.proyectores > (max_proy-cont_proy))
                         {
-                            printf("ERROR-NO PUEDE SER SOLICITADA UNA CANTIDAD DE AULAS NEGATIVA-VUELVA A INTRODUCIR UNA CANTIDAD\n");
+                            printf("ERROR, NO PUEDE SER SOLICITADA UNA CANTIDAD DE PROYECTORES NEGATIVA. VUELVA A INTRODUCIR UNA CANTIDAD\n");
                             scanf("%d",&r.proyectores);
                             if(r.proyectores > (max_proy-cont_proy))
                             {
-                                printf("ERROR-NO PUEDE AÑADIR\n");
+                                printf("ERROR, NO PUEDE AÑADIR\n");
                             }
                         }
 
@@ -1667,23 +1661,15 @@ void modificar_recursos(char *nF1,char *nF2,int cod)
                     }
                     else
                     {
-                        printf("ERROR->NO QUEDAN RECURSOS DISPONIBLES\n");
+                        printf("ERROR, NO QUEDAN RECURSOS DISPONIBLES\n");
                         exit(-1);
                     }
                     
-
                     fprintf(fich4,"%d %d %d %d %d %d\n",cont_clas,cont_cam,cont_proy,max_clas,max_cam,max_proy);
-
                     
                 }
-
-
             }
-            
-            
             fprintf(fich2,"%d %d %d %d\n",c.id,r.aulas,r.camaras,r.proyectores);
-            
-           
         }                 
 
     
@@ -1739,12 +1725,12 @@ void eliminar_recurso(char *nF1,char *nF2,int cod)
             while(fscanf(fich3,"%d %d %d %d %d %d\n",&cont_clas,&cont_cam,&cont_proy,&max_clas,&max_cam,&max_proy) == 6)
             {
                 char tipo[50];
-                printf("Introduzca el tipo de recurso a eliminar\n");
+                printf("INTRODUZCA EL TIPO DE RECURSO A ELIMINAR\n");
                 printf("'Aula', 'Camara o 'Proyector'\n");
                 scanf("%s",tipo);
                 while(strcmp(tipo,"Aula") != 0 && strcmp(tipo,"Camara") != 0 && strcmp(tipo,"Proyector") != 0)
                 {
-                    printf("ERROR-Debes introducir 'Aula','Camara' o 'Proyector'\n");
+                    printf("ERROR, DEBE INTRODUCIR 'Aula','Camara' o 'Proyector'\n");
                     scanf("%s",tipo);
 
                 }

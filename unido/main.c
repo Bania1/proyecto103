@@ -536,6 +536,77 @@ int main(int argc, char **argv)
                             op=0;
                             volver=0;
                             break;
+                        case 7:
+                            system("clear");
+                            printf("INTRODUCE EL ID DEL CURSO A ASIGNAR RECURSOS\n");
+                            scanf("%d",&curson.id);
+                            asignar_recursos(fichCursos,fichRecursos,fichCont,curson.id);
+
+                            system("clear");
+                            printf("\nPRESIONE '1' PARA VOLVER.\n");
+                            scanf("%d", &volver);
+
+                            while(volver != 1)
+                            {
+                                system("clear");
+                                sleep(1);
+                                printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                scanf("%d", &volver);
+                            }
+                        
+                            system("clear");
+                            op=0;
+                            volver=0;
+
+                        break;
+
+                        case 8:
+                            system("clear");
+                            printf("INTRODUCE EL ID DEL CURSO A MODIFICAR RECURSOS\n");
+                            scanf("%d",&curson.id);
+                            modificar_recursos(fichRecursos,fichCont,curson.id);
+
+                            system("clear");
+                            printf("\nPRESIONE '1' PARA VOLVER.\n");
+                            scanf("%d", &volver);
+
+                            while(volver != 1)
+                            {
+                                system("clear");
+                                sleep(1);
+                                printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                scanf("%d", &volver);
+                            }
+                        
+                            system("clear");
+                            op=0;
+                            volver=0;
+
+                        break;
+
+                        case 9:
+                            system("clear");
+                            printf("INTRODUCE EL ID DEL CURSO A ELIMINAR RECURSOS\n");
+                            scanf("%d",&curson.id);
+                            eliminar_recurso(fichRecursos,fichCont,curson.id);
+
+                            system("clear");
+                            printf("\nPRESIONE '1' PARA VOLVER.\n");
+                            scanf("%d", &volver);
+
+                            while(volver != 1)
+                            {
+                                system("clear");
+                                sleep(1);
+                                printf("\nERROR, PRESIONE '1' PARA VOLVER\n");
+                                scanf("%d", &volver);
+                            }
+                        
+                            system("clear");
+                            op=0;
+                            volver=0;
+
+                        break;
 
                         case 10:
                             system("clear");
@@ -1368,7 +1439,7 @@ int main(int argc, char **argv)
                 {
                     system("clear");
                     op=0;
-                    while (op != 7)
+                    while (op != 6)
                     {
                         menu_coordinador_recursos();
                         scanf("%d", &op); printf("\n");
@@ -1378,17 +1449,23 @@ int main(int argc, char **argv)
                         case 1:
                             system("clear");
                             printf("SE HA EJECUTADO VER CURSOS\n");
-                            sleep(2);
+                            mostrar_todos_cursos(fichCursos);
+                            
+                            printf("PRESIONE '1' PARA VOLVER.\n");
+                            scanf("%d", &volver);
+
+                            while(volver != 1)
+                            {
+                                system("clear");
+                                printf("ERROR, PRESIONE '1' PARA VOLVER\n");
+                                scanf("%d", &volver);
+                            }
+                            
                             system("clear");
+                            op=0;
                             break;
 
                         case 2:
-                            system("clear");
-                            printf("SE HA EJECUTADO INSCRIBIRSE AL CURSO\n");
-                            sleep(2);
-                            system("clear");
-
-                        case 3:
                             system("clear");
                             printf("INTRODUCE EL ID DEL CURSO A ASIGNAR RECURSOS\n");
                             scanf("%d",&curson.id);
@@ -1412,7 +1489,7 @@ int main(int argc, char **argv)
 
                         break;
 
-                        case 4:
+                        case 3:
                             system("clear");
                             printf("INTRODUCE EL ID DEL CURSO A MODIFICAR RECURSOS\n");
                             scanf("%d",&curson.id);
@@ -1436,7 +1513,7 @@ int main(int argc, char **argv)
 
                         break;
 
-                        case 5:
+                        case 4:
                             system("clear");
                             printf("INTRODUCE EL ID DEL CURSO A ELIMINAR RECURSOS\n");
                             scanf("%d",&curson.id);
@@ -1460,7 +1537,7 @@ int main(int argc, char **argv)
 
                         break;
 
-                        case 6:
+                        case 5:
                             system("clear");
                             comprobar_existencias(fichRecursos,fichCont);
 
