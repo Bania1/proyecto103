@@ -11,3 +11,6 @@ eje6@uco.es 1234
 eje7@uco.es 1234
 eje8@uco.es 1234
 eje9@uco.es 1234
+mecanico@curso 123
+i12gafej@recurso 1234
+i12@uco.es 123

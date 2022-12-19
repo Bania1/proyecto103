@@ -595,7 +595,7 @@ void menu_coordinador_cursos()
     printf("7.  VISUALIZAR USUARIOS.\n");
     //printf("8.  BUSCAR USUARIO.\n");
     printf("8.  VER LISTA DE ESPERA DE UN CURSO.\n");
-    printf("9. ELIMINAR USUARIO DE UN CURSO.\n");
+    printf("9.  ELIMINAR USUARIO DE UN CURSO.\n");
     printf("10. ELIMINAR USUARIO DE UNA LISTA DE ESPERA.\n");
     printf("11. VOLVER.\n");
     printf("\n");
@@ -889,8 +889,8 @@ void ver_mis_cursos(char *nF1,char*nF2,char *usuario)
         exit(-1);
     }
     int id;
-    char *email;
-    char *status;
+    char email[200];
+    char status[200];
 
     while(fscanf(fichInscripciones,"%d %s %s\n",&id,email,status) == 3)
     {
@@ -913,7 +913,7 @@ void mostrar_waitlist(char *nF,int cod)
     }
     struct user u;
     struct curso c;
-    char *status;
+    char status[200];
 
     char x[200];
     fgets(x,200,stdin);
@@ -1084,7 +1084,7 @@ int eliminar_usuario_del_curso(char *nF,int cod,char *usuario)
     }
     struct user u;
     struct curso c;
-    char *status;
+    char status[200];
     char *dentro="dentro";
     char *espera="espera";
     int retorno=1;
@@ -1135,7 +1135,7 @@ int eliminar_usuario_de_waitlist(char *nF,int cod,char *usuario)
     }
     struct user u;
     struct curso c;
-    char *status;
+    char status[200];
     char *dentro="dentro";
     char *espera="espera";
     int retorno=1;

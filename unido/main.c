@@ -175,10 +175,10 @@ int main(int argc, char **argv)
                                 volver=0;
                                 break;
                                 
-                            case 6:
+                            case 3:
                             system("clear");
                             printf("SE HA EJECUTADO BUSCAR CURSO\n");
-                            printf("INTRODUCE EL ID DEL CURSO A BUSCAR\n");
+                            printf("\nINTRODUCE EL ID DEL CURSO A BUSCAR\n");
                             int n;
                             scanf("%d",&n);
                             if (buscar_curso(fichCursos, n) != 1)

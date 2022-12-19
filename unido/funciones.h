@@ -7,7 +7,8 @@
 
 #ifndef FUNCIONES_H
 #define FUNCIONES_H
-//quitar funcion buscar usuario
+//Error de violacion de segmento cuando eres usuario y quieres ver tus cursos
+//Error de violacion de segmento cuando quieres ver o eliminar en las listas de espera
 struct user
 {
     char email[200];

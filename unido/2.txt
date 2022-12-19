@@ -14,7 +14,7 @@ Gomez Nieto
 5 4 2023
 Ajedrez
 Curso de ajedrez basico
-3 0 20 0
+3 0 20 1
 Javier Eusebio
 Alvaro Fernandez
 20 12 2023
