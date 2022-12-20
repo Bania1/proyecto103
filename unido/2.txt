@@ -14,15 +14,43 @@ Gomez Nieto
 5 4 2023
 Ajedrez
 Curso de ajedrez basico
-3 0 20 1
+3 0 20 2
 Javier Eusebio
 Alvaro Fernandez
 20 12 2023
 31 12 2023
 Domino
 Reglamento del domino
-4 0 12 0
+4 0 12 1
 Nicolas Gomez
 Paco Martinez
 23 12 2022
 24 12 2022
+Administracion de cursos
+Curso para mejorar las capacidades de enseñanza
+23 10 20 1
+Angel Gomez
+Miguel Garcia
+26 12 2023
+15 12 2024
+Prueba
+Probaremos la lista de espera
+33 13 1 1
+Angel Bauste
+Javier Garcia
+3 11 2023
+14 12 2023
+Curso de programacion
+Modificado
+110 10 1 0
+Angel Lopez
+Gomez Rodriguez
+13 4 2023
+15 8 2023
+Arbitraje
+Prueba 2
+24 30 1 0
+Lopez Angel
+Garcia Gomez
+13 3 2023
+13 4 2023

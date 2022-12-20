@@ -662,7 +662,7 @@ void crear_cuenta(char *nf, struct user usuario)
     FILE *fich = fopen(nf, "a");
     if (fich == NULL)
     {
-        printf("Error en crear cuenta\n");
+        printf("ERROR EN CREAR CUENTA\n");
         exit(-1);
     }
     fprintf(fich, "%s %s\n", usuario.email, usuario.password);
@@ -674,7 +674,7 @@ int iniciar_sesion(char *nf, struct user datos)
     FILE *fich = fopen(nf, "r");
     if (fich == NULL)
     {
-        printf("Error en iniciar sesion\n");
+        printf("ERROR EN INICIAR SESION\n");
         exit(-1);
     }
     struct user aux;
@@ -696,7 +696,7 @@ void visualizar_informacion_usuarios(char *nf) //Falta añadir datos como el nom
     FILE *fich = fopen(nf, "r");
     if (fich == NULL)
     {
-        printf("Error en iniciar sesion\n");
+        printf("ERROR EN INICIAR SESION\n");
         exit(-1);
     }
     struct user aux;

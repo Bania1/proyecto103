@@ -153,7 +153,7 @@ int main(int argc, char **argv)
                                 }
                                 else if(inscribirse(fichCursos,fichInscripciones,cod,usern.email)==2)
                                 {
-                                    printf("ERROR AL UNIRSE, EL USUARIO YA ESTA EN LA LISTA E ESPERA\n");
+                                    printf("ERROR AL UNIRSE, EL USUARIO YA ESTA EN LA LISTA DE ESPERA\n");
                                 }
                                 else if(inscribirse(fichCursos,fichInscripciones,cod,usern.email)==3)
                                 {
@@ -1359,7 +1359,7 @@ int main(int argc, char **argv)
                             }
                             else
                             {
-                                printf("ERROR AL ELIMIAR USUARIO\n");
+                                printf("ERROR AL ELIMINAR USUARIO\n");
                                 printf("\nPRESIONE '1' PARA VOLVER.\n");
                                 scanf("%d", &volver);
 
